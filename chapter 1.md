@@ -24,7 +24,7 @@ SOA for dummy (2009)
 
 ### 3. Assignments
 
-2 assignments, 2-3 person/team
+2 assignments, 2-3 persons/team
 
 ## 2. 1st assignment
 
