@@ -5,14 +5,14 @@
 
 % References
 \usepackage{biblatex}
-\addbibresource{acm_2206223.bib}
+\addbibresource{references.bib}
 
 
 \author{Nguyễn Việt Minh Nghĩa \\ \href{mailto:nvmnghia@gmail.com}{nvmnghia@gmail.com}}
 
 \date{11/03/2020}
 
-\title{Kiến trúc hướng dịch vụ INT3505\\Bài tập lớn số một\\Tìm hiểu các mô hình của điện toán đám mây}
+\title{Kiến trúc hướng dịch vụ INT3505 \\ Bài tập lớn số một \\ Tìm hiểu các mô hình của điện toán đám mây}
 
 \begin{document}
 
@@ -20,12 +20,59 @@
 
 \section{Định nghĩa}
 
-"Cloud computing" là chủ đề nhận được rất nhiều sự quan tâm trong ngành công nghệ
-thông tin. Từ khóa này thậm chí vượt ra khỏi chuyên ngành, trở thành một buzzword
-thông dụng. Giống với nhiều thuật ngữ lớn khác như AI, Big data, điện toán đám mây
-không có một định nghĩa cụ thể.
+\subsection{Tiền đề}
 
+"Cloud computing" là chủ đề nhận được rất nhiều sự quan tâm trong ngành công
+nghệ thông tin. Từ khóa này thậm chí vượt ra khỏi chuyên ngành, trở thành một
+buzzword thông dụng. Giống với nhiều thuật ngữ lớn khác như AI, Big data, điện
+toán đám mây không có một định nghĩa cụ thể và thống nhất.
 
+Với lập trình viên, điện toán đám mây đưoc hiểu đơn giản là việc \emph{cung cấp
+tài nguyên tính toán và lưu trữ qua mạng}. Để hiểu phần nào định nghĩa này, ta
+cần so sánh cách điện toán đám mây với cách sử dụng truyền thống tài nguyên máy
+tính.
+
+Trước đây, hai loại tài nguyên này thường đưọc đặt \emph{tại địa điểm} phát
+triển hoặc sử dụng (on-premise). Việc đặt tài nguyên máy tính tại địa điểm xuất
+phát từ nhu cầu thiết yếu về mặt quản trị, bảo mật (giữ quyền kiểm soát vật lý),
+nhưng cũng có lí do về giới hạn công nghệ (tài nguyên đặt ở xa thì sử dụng chậm
+hơn). Điều này dẫn tới việc công ty phải trả phí cho rất nhiều dịch vụ đi kèm,
+chủ yếu gồm lắp đặt và bảo trì. Quan trọng hơn, người dùng trực tiếp (người lập
+trình, người sử dụng, người vận hành) phần nào vẫn phải bận tâm đến những vấn đè
+này, vốn không liên quan đến chuyên môn của họ, gây cản trở, tốn thời gian làm
+việc không cần thiết. Nói ngắn gọn, bài toán thực tế đặt ra là tài nguyên cần
+đưọc cung cấp mà người dùng chỉ cần sử dụng trực tiếp, không phải lo việc bảo
+trì. Điện toán đám mây là một lời giải cho nhu cầu này.
+
+Điện toán đám mây bắt nguồn từ ý tưởng rằng vị trí của dữ liệu và máy tính cần
+\emph{trong suốt với với ngưòi dùng}, bằng cách đặt chúng trên máy chủ
+\cite{SES2006}. Ngưòi dùng chỉ cần kết nối đến máy chủ đó để truy cập và sử dụng
+tài nguyên, không cần quan tâm đến các công việc bảo trì như trước. Công ty cũng
+không phải trả các khoản phí bảo trì, thậm chí không cần quan tâm đến nâng cấp.
+Tất cả chi phí được gộp lại trả định kì theo dạng thuê bao, với hợp đồng rõ
+ràng. Với ý tưởng này, tài nguyên tính toán và lưu trữ trở thành một loại dịch
+vụ, giống với nước và điện.
+
+Vấn đề với cách hiểu trên là sự thiếu chính xác, thể hiện ở các điểm sau:
+
+\begin{itemize}
+    \item Với các nhà khoa học máy tính, tính chính xác thể hiện tính hàn lâm;
+    họ không cháp nhận một định nghĩa qua loa.
+    \item Nó không phân biệt rõ ràng điện toán đám mây với một số dịch vụ đã
+    từng tồn tại trước đó như máy chủ riêng áo (VPS).
+    \item Nó khó tránh bị lạm dụng trong quảng cáo.
+    \begin{itemize}
+        \item Nhiều công ty, chủ yếu trong ngành dịch vụ máy chủ và ERP, trong
+        đó có Dell, IBM, Oracle, dán mác "đám mây" cho các sản phẩm cũ của họ
+        (cloudwashing) \cite{MITTR2011}.
+        \item  Dell từng cố đăng kí bản quyền cụm từ "điện toán đám
+        mây".
+    \end{itemize}
+\end{itemize}
+
+Do vậy, cần thiết có một định nghĩa chính xác về điện toán đám mây. Phần tiếp
+theo trình bày một định nghĩa như vậy của NIST, được công nhận và trích dẫn rộng
+rãi, ra đời 5 năm sau khi điện toán đám mây trở nên phổ biến.
 
 \printbibliography
 
