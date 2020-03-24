@@ -23,7 +23,7 @@ def create_socket():
     """
 
     sock = socket.socket(
-        socket.AF_INET, 
+        socket.AF_INET,
         socket.SOCK_STREAM
     )
 
@@ -61,7 +61,7 @@ def recv(sock):
 
     # Then the data
     chunks = []
-    recd = 0    
+    recd = 0
 
     while recd < length:
         chunk = sock.recv(MAX_BUF)
@@ -79,9 +79,8 @@ def recv(sock):
 def get_info(id):
     """
     Get student information with id
-
     """
-    
+
     sock = create_socket()
     send(sock, id)
     return recv(sock)
@@ -92,7 +91,7 @@ def run():
         try:
             print('Enter student ID: ', end='')
             id = input()
-            
+
             info = get_info(id)
             if info is None:
                 print('The entered ID does not match any student')

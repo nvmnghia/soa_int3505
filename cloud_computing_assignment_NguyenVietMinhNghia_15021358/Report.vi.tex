@@ -36,31 +36,42 @@ Trước đây, hai loại tài nguyên này thường đưọc đặt \emph{t�
 triển hoặc sử dụng (on-premise). Việc đặt tài nguyên máy tính tại địa điểm xuất
 phát từ nhu cầu thiết yếu về mặt quản trị, bảo mật (giữ quyền kiểm soát vật lý),
 nhưng cũng có lí do về giới hạn công nghệ (tài nguyên đặt ở xa thì sử dụng chậm
-hơn). Điều này dẫn tới việc công ty phải trả phí cho rất nhiều dịch vụ đi kèm,
-chủ yếu gồm lắp đặt và bảo trì. Quan trọng hơn, người dùng trực tiếp (người lập
-trình, người sử dụng, người vận hành) phần nào vẫn phải bận tâm đến những vấn đè
-này, vốn không liên quan đến chuyên môn của họ, gây cản trở, tốn thời gian làm
-việc không cần thiết. Nói ngắn gọn, bài toán thực tế đặt ra là tài nguyên cần
-đưọc cung cấp mà người dùng chỉ cần sử dụng trực tiếp, không phải lo việc bảo
-trì. Điện toán đám mây là một lời giải cho nhu cầu này.
-
-Điện toán đám mây bắt nguồn từ ý tưởng rằng vị trí của dữ liệu và máy tính cần
-\emph{trong suốt với với ngưòi dùng}, bằng cách đặt chúng trên máy chủ
-\cite{SES2006}. Ngưòi dùng chỉ cần kết nối đến máy chủ đó để truy cập và sử dụng
-tài nguyên, không cần quan tâm đến các công việc bảo trì như trước. Công ty cũng
-không phải trả các khoản phí bảo trì, thậm chí không cần quan tâm đến nâng cấp.
-Tất cả chi phí được gộp lại trả định kì theo dạng thuê bao, với hợp đồng rõ
-ràng. Với ý tưởng này, tài nguyên tính toán và lưu trữ trở thành một loại dịch
-vụ, giống với nước và điện.
-
-Vấn đề với cách hiểu trên là sự thiếu chính xác, thể hiện ở các điểm sau:
+hơn). Điều này dẫn tới việc đến hai hậu quả:
 
 \begin{itemize}
-    \item Với các nhà khoa học máy tính, tính chính xác thể hiện tính hàn lâm;
-    họ không cháp nhận một định nghĩa qua loa.
-    \item Nó không phân biệt rõ ràng điện toán đám mây với một số dịch vụ đã
-    từng tồn tại trước đó như máy chủ riêng áo (VPS).
-    \item Nó khó tránh bị lạm dụng trong quảng cáo.
+    \item Công ty phải trả phí cho rất nhiều dịch vụ đi kèm, chủ yếu gồm lắp đặt
+    và bảo trì.
+    \item Người dùng trực tiếp (người lập trình, người vận hành) phần nào vẫn
+    phải bận tâm đến những vấn đè ngoài chuyên môn (bảo trì, sử dụng).
+\end{itemize}
+
+Cả công ty và người sử dụng đều mất tiền và thời gian, công sức không cần thiết.
+Nói ngắn gọn, bài toán thực tế đặt ra là tài nguyên cần đưọc cung cấp mà người
+dùng chỉ cần sử dụng trực tiếp, không phải lo việc bảo trì. Điện toán đám mây là
+một lời giải cho nhu cầu này.
+
+Điện toán đám mây bắt nguồn từ ý tưởng rằng vị trí và các hoạt động bảo trì của
+tài nguyên cần \emph{trong suốt với với ngưòi dùng}, bằng cách đặt chúng trên
+máy chủ \cite{SES2006}. Ý tưởng này giải quyết được cả hai vấn đề đề cập ở trên:
+
+\begin{itemize}
+    \item Ngưòi dùng chỉ cần kết nối đến máy chủ đó để truy cập và sử dụng tài
+    nguyên, không cần quan tâm đến các công việc bảo trì như trước.
+    \item Công ty chỉ cần trả chi phí định kì; phí này bao gồm tất cả chi phí
+    mua sắm, vận hành, nâng cấp.
+\end{itemize}
+
+Với ý tưởng này, tài nguyên tính toán và lưu trữ trở thành một loại dịch vụ thuê
+bao, giống với nước, điện và sóng điện thoại. Tổng chi phí sở hữu (TCO) của
+doanh nghiệp được cắt giảm hoàn toàn.
+
+Vấn đề với cách hiểu trên là sự thiếu chính xác, thể hiện ở một số điểm sau:
+
+\begin{itemize}
+    \item Thiếu tính hàn lâm
+    \item Không phân biệt rõ ràng điện toán đám mây với một số dịch vụ đã
+    từng tồn tại trước đó như máy chủ riêng áo (VPS)
+    \item Khó tránh bị lạm dụng trong quảng cáo
     \begin{itemize}
         \item Nhiều công ty, chủ yếu trong ngành dịch vụ máy chủ và ERP, trong
         đó có Dell, IBM, Oracle, dán mác "đám mây" cho các sản phẩm cũ của họ
@@ -73,6 +84,37 @@ Vấn đề với cách hiểu trên là sự thiếu chính xác, thể hiện 
 Do vậy, cần thiết có một định nghĩa chính xác về điện toán đám mây. Phần tiếp
 theo trình bày một định nghĩa như vậy của NIST, được công nhận và trích dẫn rộng
 rãi, ra đời 5 năm sau khi điện toán đám mây trở nên phổ biến.
+
+\subsection{Định nghĩa của NIST}
+
+NIST định nghĩa điện toán đám mây như sau \cite{NIST2011}:
+
+Điện toán đám mây là mô hình cho phép truy cập một cách thuận tiện, theo yêu cầu
+vào một bể tài nguyên dùng chung. Tài nguyên đó có thể là mạng, máy chủ, thiết
+bị lưu trữ, ứng dụng, dịch vụ. Tài nguyên này có thể được cấu hình, có thể được
+cung cấp và hoàn trả nhanh chóng mà không cần can thiệp từ nhà cung cấp dịch vụ.
+Mô hình này gồm năm đặc tính:
+
+\begin{itemize}
+    \item Tự phục vụ theo nhu cầu: Người dùng có thể sử dụng tài nguyên theo nhu
+    cầu mà không cần liên hệ trước với nhà cung cấp dịch vụ.
+    \item Truy cập qua mạng: Tài nguyên có thể đưọc sử dụng qua mạng, bằng các
+    thiết bị đầu cuối thông thường, từ điện thoại đến máy tính.
+    \item Tài nguyên dùng chung: Tài nguyên của nhà cung cấp đưọc gộp lại và cho
+    mọi người dùng chung, sao cho sự riêng tư vẫn được đảm bảo. Dịch vụ cần đạt
+    đưọc sự trong suốt về vị trí, theo nghĩa là người dùng không cần kiểm soát
+    hay biết vị trí địa lí của tài nguyên, nhưng có thể chỉ định vị trí ở mức
+    cao hơn (quốc gia, địa điểm, trung tâm dữ liệu,...).
+    \item Cung cấp tài nguyên linh hoạt: tài nguyên có thể được cung cấp cho
+    người dùng một cách tự động, không cần người dùng biết, tùy theo mức tải.
+    Với người dùng, dịch vụ có vẻ vô tận.
+    \item Dịch vụ được điều tiết: Hệ thống tự động điều khiển và tối ưu việc sử
+    dụng tài nguyên bằng các công cụ đo lường. Chi phí sử dụng được tính theo
+    cách thông số đo đạc này. Thông tin sử dụng có thể đưọc theo dõi, báo cáo
+    cho cả người dùng và nhà cung cấp dịch vụ.
+\end{itemize}
+
+\section{}
 
 \printbibliography
 
