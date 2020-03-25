@@ -5,8 +5,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import rmi_ex.IGetStudent;
-import rmi_ex.Student;
 
 
 public class Client {
@@ -33,6 +31,9 @@ public class Client {
     }
 
     public static void main(String[] args) throws RemoteException {
+        // lol
+        // https://coderanch.com/wiki/678613/Don-close-Scanner-tied-System
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
