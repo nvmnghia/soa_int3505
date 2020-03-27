@@ -1,4 +1,4 @@
-package rmi_ex;
+package server;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -8,13 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-class Server implements IGetStudent {
+class Server implements IGetStudentInfo {
 
-    Map<String, Student> STUDENTS = new HashMap<>();
+    private Map<String, Student> STUDENTS = new HashMap<>();
 
-    protected Server() throws RemoteException {
-        super();
-
+    private Server() throws RemoteException {
         // Init student list
         int id = 110;
         for (int i = 0; i < 10; ++i) {
@@ -27,7 +25,7 @@ class Server implements IGetStudent {
     }
 
     @Override
-    public Student getStudentFromID(String id) throws RemoteException {
+    public IStudentInfo getStudentFromID(String id) throws RemoteException {
         System.out.println("Query for ID " + id);
         return this.STUDENTS.get(id);
     }
@@ -36,12 +34,14 @@ class Server implements IGetStudent {
         try {
             final int PORT = 0;    // Anonymous port? Wat bout 1099?
             Server server = new Server();
-            IGetStudent stub = (IGetStudent) UnicastRemoteObject     // Alternatively, extends with UnicastRemoteObject
-                                .exportObject(server, PORT);         // and omit this exporting line
+            IGetStudentInfo stub = (IGetStudentInfo) UnicastRemoteObject     // Alternatively, extends with UnicastRemoteObject
+                                   .exportObject(server, PORT);              // and omit this exporting line
             Registry registry = LocateRegistry.getRegistry();
             registry.bind("Server", stub);
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
+
 }
