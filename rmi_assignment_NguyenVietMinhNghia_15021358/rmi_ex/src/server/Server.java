@@ -33,7 +33,7 @@ class Server implements IGetStudentInfo {
     public static void main(String[] main) {
         try {
             final int PORT = 0;    // Anonymous port? Wat bout 1099?
-            Server server = new Server();
+            IGetStudentInfo server = new Server();
             IGetStudentInfo stub = (IGetStudentInfo) UnicastRemoteObject     // Alternatively, extends with UnicastRemoteObject
                                    .exportObject(server, PORT);              // and omit this exporting line
             Registry registry = LocateRegistry.getRegistry();
