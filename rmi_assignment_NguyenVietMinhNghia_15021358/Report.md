@@ -11,7 +11,12 @@
 ### 2. How to run
 
 ```bash
-# Start rmiregistry daemon
+# Go to classpath
+cd rmi_ex/src
+
+# Start rmiregistry daemon, at src folder
+# Otherwise rmiregistry doesn't know how to find classes,
+# causing ClassNotFound exception
 rmiregistry&
 
 # Start server
