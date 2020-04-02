@@ -34,7 +34,6 @@ def create_socket():
 def send(sock, id):
     """
     Send id to server
-
     Raise ValueError if the id's size is large than MAX_ID_LEN
     """
 

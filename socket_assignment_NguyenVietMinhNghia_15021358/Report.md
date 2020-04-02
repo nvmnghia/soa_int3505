@@ -42,7 +42,7 @@ As TCP transmission doesn't have `EOT`, the size of the data must be known befor
 
 First, the client sends the id (`MAX_ID_LEN=64` bytes max) to the server.
 
-Then the server replies with the length of the data (itself `MAX_HEAD_LEN=4` bytes max), simulating a LEN header.
+Then the server replies with the length of the data (itself `MAX_HEAD_LEN=4` bytes max), simulating a `LEN` header.
 
 Finally, after obtaining the data size to read, the client receives data from the server, in `MAX_BUF=4096`-byte chunk.
 
