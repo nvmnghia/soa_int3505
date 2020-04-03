@@ -1,14 +1,14 @@
 \documentclass{article}
 
-\usepackage{hyperref}
+\usepackage{hyperref}          % Clickable link
 \usepackage{indentfirst}
 
 % References
 \usepackage{biblatex}
 \addbibresource{references.bib}
 
-\usepackage{float}
-\usepackage{graphicx}
+\usepackage{graphicx}          % Load images
+\usepackage{float}             % Insert images at the current position using [h]
 \graphicspath{ {./images/} }
 
 
@@ -225,7 +225,7 @@ hành,...) đã chọn trước. Nhà cung cấp thường cung cấp một số
 cài đặt tùy thích các phần mềm bên thứ ba.
 
 Ví dụ cho mô hình này là Google App Engine. App Engine cho phép người dùng tải
-lên mã nguồn ở nhiều ngôn ngữ, có thư viện để lưu dữ liệu vào BigTable/BigQuery
+lên mã nguồn ở nhiều ngôn ngữ, có thư viện để lưu dữ liệu vào Bigtable/BigQuery
 (thay cho các ứng dụng cơ sở dữ liệu OLTP/OLAP truyền thống), dùng ngôn ngữ truy
 vấn riêng, và hạn chế truy cập vào hệ điều hành.
 
@@ -240,27 +240,33 @@ nhưng gần đây được nhắc đến nhiều do sự dễ dàng sử dụng
 liên quan đến và/hoặc hay bị nhầm với PaaS.
 
 "Hàm" trong hàm ở dạng dịch vụ có ý so sánh với hàm - khối logic nhỏ nhất trong
-lập trình. FaaS chỉ chấp nhận mã nguồn nhỏ gọn, cho phép kiểm soát môi trường ít
-hơn cả PaaS, nhưng do đó cho phép thời gian xử lí nhanh, có thể auto-scaling mà
-gần như không cần cấu hình. Một khác biệt quan trọng nữa là FaaS không có
-process chờ kết nối mà được môi trường của nhà cung cấp kích hoạt khi cần. Các
-đặc điểm trên dẫn đến cách tính phí đặc biệt, chỉ tính lúc chương trình đang
-chạy (không tính ở chế độ chờ) và có độ chính xác đến phần trăm giây, hoặc tính
-theo số lần sử dụng \cite{CFPvF}. Ví dụ tiêu biểu cho mô hình này là Amazon
-Lambda, Azure Function. Gần đây, FaaS bắt đầu phổ biến, gắn với kiến trúc
-serverless.
+lập trình. FaaS thường có một số đặc điểm như sau:
+
+\begin{itemize}
+    \item Chỉ chấp nhận mã nguồn nhỏ gọn: FaaS cho phép kiểm soát môi trường ít
+    hơn cả PaaS, có thể triển khai mà gần như không cần cấu hình.
+    \item Kích hoạt khi cần: Ứng dụng không có process chờ kết nối mà được môi
+    trường của nhà cung cấp kích hoạt khi cần.
+\end{itemize}
+
+Hai đặc điểm trên, đặc biệt là điểm thứ hai, dẫn đến khả năng auto-scaling vượt
+trội của FaaS. Các đặc điểm này còn cho phép FaaS có cách tính phí đặc biệt, chỉ
+tính lúc chương trình đang chạy (không tính ở chế độ chờ) và có độ chính xác đến
+phần trăm giây, hoặc tính theo số lần sử dụng \cite{CFPvF}. Ví dụ tiêu biểu cho
+mô hình này là Amazon Lambda, Azure Function. Gần đây, FaaS bắt đầu phổ biến,
+gắn với kiến trúc serverless.
 
 Cơ sở dữ liệu ở dạng dịch vụ là việc sử dụng cơ sở dữ liệu trên hạ tầng điện
 toán đám mây. Đây có thể coi là một kiểu SaaS hơn là PaaS. Các dịch vụ DBaaS mới
 (không đơn thuần là SaaS với phần mềm cơ sở dữ liệu có sẵn) như Google Bigtable
-có khả năng auto-scaling mà cơ sở dữ liệu thông thường không có, hoặc phải cấu
-hình thủ công, đồng thời cung cấp các tính năng nâng cao truyền thống như sao
-lưu.
+có nhiều tính năng, tiêu biểu như auto-scaling mà cơ sở dữ liệu thông thường
+không có, hoặc phải cấu hình thủ công hay dùng phần mềm bên thứ ba, đồng thời
+vẫn cung cấp các tính năng nâng cao truyền thống như sao lưu.
 
 \subsection{Phân loại theo mô hình triển khai}
 
-Tiếp tục cách phân loại của NIST, có bốn mô hình triển khai, phân loại dựa theo
-độ riêng tư của môi trường.
+Tiếp tục theo cách phân loại của NIST, có bốn mô hình triển khai, phân loại dựa
+vào độ riêng tư của môi trường.
 
 \subsubsection{Điện toán đám mây dùng riêng}
 
