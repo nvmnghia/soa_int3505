@@ -291,7 +291,7 @@ Khác với cơ sở dữ liệu quan hệ và SQL, không có một tiêu chu�
 toàn ngành về MOM. Tuy nhiên có hai tiêu chuẩn nổi bật hơn cả là Java Message
 Service (JMS) của Java và Advanced Message Queuing Protocol (AMQP) của OASIS/ISO.
 
-\subsection{Java Message Service - JMS}
+\subsubsection{Java Message Service - JMS}
 
 JMS là một bộ API trong Java EE cho phép người dùng gửi và nhận thông tiên liên
 tiến trình theo kiểu MOM. Trong JMS, broker được gọi là JMS Provider.
@@ -301,14 +301,14 @@ cả giao thức để giao tiếp giữa producer-broker-consumer đều không
 nghĩa. Do đó, 2 hệ thống MOM tuân theo JMS chưa chắc đã kết nối được với nhau,
 dù có chung cách dùng.
 
-\subsection{Advanced Message Queuing Protocol - AMQP}
+\subsubsection{Advanced Message Queuing Protocol - AMQP}
 
-AMQP là một giao thức tầng ứng dụng cho MOM dùng đểliên lạc giữa
+AMQP là một giao thức tầng ứng dụng cho MOM dùng để liên lạc giữa
 producer-broker-consumer.
 
-Do AMQP là một giao thức, bất kì hai ứng dụng nào cài đặt nó đều có thể giao
-tiếp với nhau. Apache ActiveMQ là một MOM có sử dụng giao thức AMQP, và cùng lúc
-cài đặt bộ API JMS.
+Do AMQP là một giao thức gửi dữ liệu ở dạng cơ bản nhất - byte, bất kì hai ứng
+dụng nào cài đặt nó đều có thể giao tiếp với nhau. Apache ActiveMQ là một MOM có
+sử dụng giao thức AMQP, và cùng lúc cài đặt bộ API JMS.
 
 \section{Apache Kafka} \label{kafka}
 
@@ -349,11 +349,6 @@ broker với consumer được thực hiện như sau \cite{kafka_intro, kafka_d
 Nhờ có group, Kafka đạt được lợi thế của cả cơ chế fan-out (nhiều loại group
 consumer) và cơ chế load balancing (nhiều consumer để tăng tốc xử lý).
 
-% Với nhiều ứng dụng, thứ tự của thông điệp rất quan trọng (tránh thông điệp xảy
-% ra sau lại được xử lí trước, ở 2 consumer khác nhau). Việc nhóm các consumer
-% thành group giúp Kafka chỉ cần đảm bảo thứ tự thông điệp ở cấp group thay vì
-% phải đảm bảo ở cấp toàn bộ các consumer - vốn rất nặng nề và không thực tế.
-
 \subsubsection{Cluster Broker}
 
 Trong Kafka, broker không phải là một máy riêng lẻ mà gồm nhiều máy khác nhau,
@@ -388,7 +383,7 @@ Do việc ghi tuần tự vào đuôi mỗi log, việc đọc cũng trở nên 
 chỉ cần nhớ offset gần nhất đã đọc, và đọc tuần tự tiếp từ đó, hoặc thậm chí có
 thể trỏ offset về sâu nữa để xử lí dữ liệu cũ nếu cần.
 
-Có hai lí do mà Kafka chia topic ra thành các partition:
+Có một số lí do mà Kafka chia topic ra thành các partition:
 
 \begin{itemize}
     \item Scale out: Nếu topic quá lớn, chỉ cần thêm máy broker và thêm partition.
@@ -397,6 +392,13 @@ Có hai lí do mà Kafka chia topic ra thành các partition:
     consumer đó phải xử lí cả một topic. Vì có partition nên có thể dùng nhiều
     (nhưng vẫn không nhiều như load balacing) consumer, mỗi consumer xử lí một
     partition.
+    \item Đánh đổi hợp lí giữa tốc độ và khả năng đảm bảo thứ tự: Với nhiều ứng
+    dụng, thứ tự của nhận thông điệp giữa hai consumer rất quan trọng. Cách
+    truyền thống là đảm bảo chỉ một consumer xử lí toàn bộ topic. Tuy nhiên
+    Kafka chia topic ra các partition, và giao mỗi partition cho một consumer,
+    do đó Kafka có thể tăng tốc độ xử lí (dĩ nhiên hệ thống sử dụng cũng cần
+    được thiết kế phù hợp).
+
 \end{itemize}
 
 \subsubsection{Nhân bản: master-slave}
@@ -421,10 +423,10 @@ Có hai lí do chính cho tốc độ cao của Kafka, và đều liên quan đ�
 
 \subsubsection{Đọc ghi tuần tự}
 
-Thông thường, ổ cứng được coi là quá chậm vì người dùng có mẫu truy cập ngẫu
-nhiên. Theo bài test của Kafka, ổ cứng cơ truyền thống nếu chạy RAID và ghi tuần
-tự có thể có băng thông 600 MB/s, tuy nhiên cùng hệ thống ấy nếu ghi ngẫu nhiên
-thì chỉ được 1/6000 tốc độ ghi tuần tự.
+Thông thường, ổ cứng được coi là quá chậm, phần vì lí do công nghệ, phần vì
+người dùng có mẫu truy cập ngẫu nhiên. Theo bài test của Kafka, ổ cứng cơ truyền
+thống nếu chạy RAID và ghi tuần tự có thể có băng thông 600 MB/s, tuy nhiên cùng
+hệ thống ấy nếu ghi ngẫu nhiên thì chỉ được 1/6000 tốc độ ghi tuần tự.
 
 Do sử dụng cấu trúc log, việc ghi chỉ gồm ghi tuần tự vào cuối file (append),
 việc đọc cũng tuần tự theo thứ tự offset, tốc độ đọc-ghi của Kafka rất nhanh.
@@ -459,15 +461,61 @@ broker "đẩy" dữ liệu xuống consumer.
 
 \subsection{Ứng dụng}
 
-Ứng dụng quan trọng nhất của Kafka chính là làm một hệ thống MOM. Ngoài ra, với
-hệ thống lưu trữ được phân mảnh và nhân bản, Kafka có thể đóng vai trò làm một
-hệ thống lưu trữ.
+Ứng dụng quan trọng nhất của Kafka chính là làm một hệ thống MOM.  Trong vai trò
+này, Kafka đã được sử dụng thành công trong các hệ thống lớn, yêu cầu tốc độ
+thời gian thực. Cụ thể hơn, có hai ca sử dụng phổ biến:
 
-Điểm khác biệt quan trọng của Kafka và một số hệ thống đối thủ như ActiveMQ là
-mức độ hỗ trợ cho xử lí dữ liệu dạng luồng (stream data). Các hệ thống MOM mới
-đều hỗ trợ phần nào các thao tác aggregator và join, tuy nhiên với các bài toán
-phức tạp hơn thì vẫn cần những hệ thống xử lí luồng ở ngoài như Storm,
-Spark,.... Hiện tại chỉ Kafka mới có hệ thống xử lí luồng riêng là Kafka Stream.
+\begin{itemize}
+    \item Event sourcing: Là một mô hình thiết kế. Trong mô hình này, các thay
+    đổi trạng thái của dữ liệu được ghi lại và được gửi đến các hệ thống khác
+    thông qua MOM. Với chuỗi các thay đổi này, bên nhận có thể "replay" và đạt
+    được trạng thái dữ liệu của bên gửi.
+    \item Analytic pipeline:
+\end{itemize}
+
+Ngoài ra, với hệ thống lưu trữ được phân mảnh và nhân bản, Kafka có thể đóng vai
+trò làm một hệ thống lưu trữ.
+
+Điểm khác biệt của Kafka và một số hệ thống đối thủ như ActiveMQ là mức độ hỗ
+trợ cho xử lí dữ liệu dạng luồng (stream data). Dữ liệu dạng luồng coi dữ liệu
+là một luồng đến và đi liên tục. Đây là quan điểm khác với quan điểm khác với ý
+tưởng của xử lí dữ liệu theo lô (batch data), do để tạo được "lô" thì dữ liệu
+phải có một cách phân nhóm hữu ích (ví dụ, nhóm dữ liệu theo năm). Với dữ liệu
+dạng luồng, ngưòi ta chấp nhận rằng dữ liệu không thể được "gom" lại như thế
+(hoặc chỉ "gom" một số điểm dữ liệu gần nhau). Từ đó, hệ thống dữ liệu luồng có
+thể đạng được tốc độ xử lí gần với thời gian thực.
+
+Các hệ thống MOM mới đều hỗ trợ phần nào các thao tác aggregator và join trong
+xử lí dữ liệu dạng luồng, tuy nhiên với các bài toán phức tạp hơn thì vẫn cần
+những hệ thống xử lí luồng ở ngoài như Storm, Spark,... Hiện tại chỉ Kafka mới
+có hệ thống xử lí luồng riêng là Kafka Stream.
+
+Tuy nhiên, các hệ thống MOM cổ điển hơn như ActiveMQ hay RabbitMQ, và các hệ
+thống không broker (cho đến đây, các MOM được bàn đến đều có broker) như ZeroMQ
+vẫn có chỗ đứng riêng. Một số nhược điểm của Kafka có thể kể đến là quá cồng
+kềnh với một hệ thống nhỏ, đồng thời không hỗ trợ những thao tác phức tạp trên
+dữ liệu như giao dịch (do đã đánh đổi cách lưu trữ dữ liệu phức tạp với hiệu
+năng cao).
+
+\section{Demo Kafka}
+
+\subsection{Bài toán: Crawler}
+
+Cho đường link một bài báo trên VnExpress hoặc Zing. Crawl dữ liệu (tiêu đề,
+thân bài,...) bài báo đó và các bài báo liên quan về.
+
+\subsection{Lời giải}
+
+Có một producer để nhận link bài báo từ người dùng, 2 consumer ứng với hai trang
+báo để crawl dữ liệu. Có hai topic tương ứng với hai báo.
+
+Khi producer nhận được link bài báo, nó kiểm tra xem bài báo là của báo nào, rồi
+gửi vào topic tương ứng, đến consumer và crawler tương ứng. Dữ liệu crawl được
+sẽ lưu lại ở dạng JSON và lưu ở thư mục gọi producer.
+
+Chú ý do Kafka tối ưu cho việc trao đổi thông tin một chiều/bất đồng bộ, việc
+dựng thêm một topic để trả về tận tay producer là khiên cưỡng, code demo không
+dùng cách này.
 
 \printbibliography
 
