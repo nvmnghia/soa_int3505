@@ -284,6 +284,8 @@ TSWLatexianTemp*
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
 
+# inkscape
+svg-inkscape/
 
 #####
 # Java
@@ -313,6 +315,10 @@ TSWLatexianTemp*
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+
+#####
+# LibreOffice
+#####
 
 # Libre Office lock files
 .~lock*

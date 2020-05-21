@@ -7,23 +7,25 @@
 \usepackage{biblatex}
 \addbibresource{references.bib}
 
+% Images
 \usepackage{graphicx}          % Load images
 \usepackage{float}             % Insert images at the current position using [h]
 \graphicspath{ {./images/} }
+\usepackage{wrapfig}     % Text wrap image
+
+% SVG
+\usepackage{ifluatex}
+\ifluatex
+  \usepackage{pdftexcmds}
+  \makeatletter
+  \let\pdfstrcmp\pdf@strcmp
+  \let\pdffilemoddate\pdf@filemoddate
+  \makeatother
+\fi
+\usepackage{svg}
 
 \usepackage{textcomp}    % For the Trade Mark joke
 
-\usepackage{wrapfig}     % Text wrap image
-
-% \usepackage{ifluatex}
-% \ifluatex
-%   \usepackage{pdftexcmds}
-%   \makeatletter
-%   \let\pdfstrcmp\pdf@strcmp
-%   \let\pdffilemoddate\pdf@filemoddate
-%   \makeatother
-% \fi
-% \usepackage{svg}
 
 \author{Nguyễn Việt Minh Nghĩa \\ \href{mailto:nvmnghia@gmail.com}{nvmnghia@gmail.com}}
 
@@ -64,7 +66,7 @@ Có rất nhiều cơ chế để liên lạc giữa các tiến trình với nh
 đó có RPC - Remote Procedure Call. Hai trong những lí do cho sự phổ biến của RPC
 là nó có thể giúp cho các tiến trình ở các máy khác nhau giao tiếp được với
 nhau, đồng thời không phụ thuộc vào ngôn ngữ. Nhiều phương pháp cũ hơn như file,
-pipe, shared memory,... đều không thể thực hiện việc này \cite{osc12}. Tuy
+pipe, shared memory, ... đều không thể thực hiện việc này \cite{osc12}. Tuy
 nhiên, RPC và các biến thể của nó như ORB rất khó đáp ứng với các yêu cầu mới về
 độ ổn định, khả năng hoạt động liên tục và hiệu năng, khiến nó dần trở nên lỗi
 thời.
@@ -104,7 +106,7 @@ giản, với ba thành phần kể trên (mũi tên chỉ hướng đi của th
 %   b(Broker) --> c2[Consumer 2]
 
 \begin{figure}[H]
-    \includegraphics[scale=0.5]{general_producer_broker_consumer.png}
+    \includesvg[scale=0.5]{general_producer_broker_consumer.svg}
     \centering
     \caption{Kiến trúc chung của MOM.}
     \label{general_producer_broker_consumer}
@@ -163,10 +165,10 @@ Nói đơn giản, với producer và ngưòi dùng, MOM là một dịch vụ g
 kiểu bắn-và-quên. Hệ thống MOM do đó đạt được sự tách rời gửi-nhận.
 
 Tiếp tục so sánh với RPC, bên gửi cần biết thông tin về bên nhận (ví dụ như địa
-chỉ IP, tên hàm,...). Nếu có nhiều bên nhận, bên gửi phải xử lí việc gửi cho mọi
-bên nhận, bao gồm những việc như chờ, gửi lại nếu bị lỗi,..., do đó tốn nhiều
-thời gian. Đặc biệt, với các hệ thống đám mây, nơi một máy chủ ảo bị xóa, tắt,
-hoặc tạo mới diễn ra thường xuyên thì mạng kết nối đầy đủ, chặt chẽ (fully
+chỉ IP, tên hàm, ...). Nếu có nhiều bên nhận, bên gửi phải xử lí việc gửi cho
+mọi bên nhận, bao gồm những việc như chờ, gửi lại nếu bị lỗi, ..., do đó tốn
+nhiều thời gian. Đặc biệt, với các hệ thống đám mây, nơi việc máy chủ ảo bị xóa,
+tắt, hoặc tạo mới diễn ra thường xuyên thì mạng kết nối đầy đủ, chặt chẽ (fully
 connected network) mà RPC tạo ra sẽ rất phức tạp và khó bảo trì
 \cite{Kleppmann17C}, giống như biếm họa trong hình
 \ref{spaghetti_architectures}.
@@ -182,7 +184,8 @@ Với hai đặc điểm nêu trên, có thể thấy rằng hệ thống sử d
 toàn khác với hệ thống sử dụng RPC:
 
 \begin{itemize}
-    \item MOM phù hợp với hệ thống được thiết kế có liên kết lỏng lẻo.
+    \item MOM phù hợp với hệ thống được thiết kế có liên kết lỏng lẻo
+    (loose-coupling).
     \item RPC phù hợp với hệ thống cần liên lạc hai chiều.
 \end{itemize}
 
@@ -199,7 +202,7 @@ chức lớn, do tiềm lực kinh tế và nhu cầu cho phép, với những s
 công ty phần mềm lớn như EMS của TIBCO, WebSphere của IBM, webMethods của
 softwareAG \cite{Kleppmann17C}. Hiện nay, nhiều hệ thống vừa và nhỏ cũng có nhu
 cầu scale out, do đó đã có rất nhiều dự án MOM mã nguồn mở xuất hiện, tiêu biểu
-là RabbitMQ, Apache Kafka, ActiveMQ,...
+là RabbitMQ, Apache Kafka, ActiveMQ, ...
 
 Phần này tập trung vào phân tích một số khía cạnh về cách broker hoạt động.
 
@@ -220,7 +223,7 @@ chức năng nào đó.
 
 Ví dụ, với hệ thống crawler, khi một người gửi thông tin một đường link vào
 producer, producer đó có thể phân tích để gửi vào hàng đợi chuyên xử lí trang
-VnExpress, hoặc đưa vào hàng đợi chuyên xử lí Zing,... Đăng kí vào các hàng đợi
+VnExpress, hoặc đưa vào hàng đợi chuyên xử lí Zing, ... Đăng kí vào các hàng đợi
 đó là các crawler tương ứng.
 
 Chú ý rằng một số tài liệu còn nhắc đến một mô hình nữa của MOM bên cạnh pub-sub
@@ -488,7 +491,7 @@ nhỏ).
 
 Các hệ thống MOM mới đều hỗ trợ phần nào các thao tác aggregator và join trong
 xử lí dữ liệu dạng luồng, tuy nhiên với các bài toán phức tạp hơn thì vẫn cần
-những hệ thống xử lí luồng ở ngoài như Storm, Spark,... Hiện tại chỉ Kafka mới
+những hệ thống xử lí luồng ở ngoài như Storm, Spark, ... Hiện tại chỉ Kafka mới
 có hệ thống xử lí luồng riêng là Kafka Stream.
 
 Tuy nhiên, các hệ thống MOM cổ điển hơn như ActiveMQ hay RabbitMQ, và các hệ
@@ -503,7 +506,7 @@ năng cao).
 \subsection{Bài toán: Crawler}
 
 Cho đường link một bài báo trên VnExpress hoặc Zing. Crawl dữ liệu (tiêu đề,
-thân bài,...) bài báo đó và các bài báo liên quan về.
+thân bài, ...) bài báo đó và các bài báo liên quan về.
 
 \subsection{Lời giải}
 
