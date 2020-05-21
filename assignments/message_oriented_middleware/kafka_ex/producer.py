@@ -44,4 +44,4 @@ else:
         bootstrap_servers=config.SERVER,
         value_serializer=lambda x: dumps(x).encode('utf-8'))
     producer.send(news_source, payload)
-    producer.close()
+    producer.close()    # Flush to consumer

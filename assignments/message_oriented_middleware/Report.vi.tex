@@ -45,12 +45,11 @@ hệ thống phần mềm không thể chỉ thực hiện được bằng cách
 hơn, mạnh hơn (scale up), mà còn phải bằng cách tăng số lượng các máy (scale
 out).
 
-Cùng với sự phát triển của phần cứng, phần mềm cũng trở nên phức tạp hơn. Một hệ
-thống phần mềm ngày nay gồm nhiều hệ thống con có mức chuyên biệt hóa cao hoạt
-động độc lập, thay vì một khối phần mềm lớn (monolithic) như trước. Cho dù các
-thành phần của hệ thống này cùng chạy trên một máy, chúng cũng không thể đơn
-giản là dùng chung một khối bộ nhớ, do cơ chế bảo mật địa chỉ ảo của hệ điều
-hành.
+Song song với phần cứng, phần mềm cũng trở nên phức tạp hơn. Một hệ thống phần
+mềm ngày nay gồm nhiều hệ thống con có mức chuyên biệt hóa cao hoạt động độc
+lập, thay vì một khối phần mềm lớn (monolithic) như trước. Cho dù các thành phần
+của hệ thống này cùng chạy trên một máy, chúng cũng không thể đơn giản là dùng
+chung một khối bộ nhớ, do cơ chế bảo mật địa chỉ ảo của hệ điều hành.
 
 Hai vấn đề này cùng dẫn đến nhu cầu kết nối các máy tính (hay cụ thể hơn, các
 tiến trình) với nhau, và trao đổi dữ liệu giữa chúng. Với sự phát triển của mạng
@@ -142,20 +141,20 @@ không thể nhận được dữ liệu, broker sẽ chờ đến khi consumer 
 liệu rồi gửi lại, đảm bảo gửi ít nhất một lần.
 
 Cần chú ý rằng MOM không thể, và không được thiết kế để thay thế hoàn toàn RPC.
-Lý do chính nằm ở chi tiết producer không chờ lấy dữ liệu kết quả. MOM hoàn
-toàn không cung cấp một cơ chế riêng nào giúp consumer trả kết quả cho producer,
-trái ngược với tính liên lạc hai chiều của RPC. Nếu muốn lấy kết quả, hai bên
-producer và consumer đổi vai cho nhau, và cần một kết nối khác. Điều này khiến
-cho RPC vẫn có chỗ đứng riêng, đồng thời khiến cho việc thiết kế hệ thống dùng
-MOM khác biệt đáng kể với hệ thống dùng RPC. MOM chỉ phù hợp với hệ thống có dữ
-liệu không có sự phụ thuộc lẫn nhau \cite{ejb3_c4}.
+Lý do chính nằm ở chi tiết producer không chờ lấy dữ liệu kết quả. MOM hoàn toàn
+không cung cấp một cơ chế riêng nào giúp consumer trả kết quả cho producer, trái
+ngược với tính liên lạc hai chiều của RPC. Nếu muốn lấy kết quả, hai bên
+producer và consumer đổi vai cho nhau, và cần thêm một kết nối nữa. Điều này
+khiến cho RPC vẫn có chỗ đứng riêng, đồng thời khiến cho việc thiết kế hệ thống
+dùng MOM có khác biệt lớn so với với hệ thống dùng RPC: MOM chỉ phù hợp với hệ
+thống có dữ liệu không có sự phụ thuộc lẫn nhau \cite{ejb3_c4}.
 
 \subsection{Tách rời bên gửi - bên nhận - Decoupling}
 
 Một đặc điểm quan trọng khi tách việc "gửi" dữ liệu khỏi producer là việc gửi đi
 đâu hoàn toàn nằm trong tay broker. Động từ "gửi" được dùng theo nghĩa là một
 bên muốn bên kia biết được một thông tin nào đó. Để có thể gửi, bên gửi cần biết
-thông tin bên nhận. Tuy nhiên, với MOM, bên "gửi" - producer -  có thể không cần
+thông tin bên nhận. Tuy nhiên, với MOM, bên "gửi" - producer - có thể không cần
 biết thông tin của bên "nhận" - consumer. Producer không cần biết rằng consumer
 nào nhận, chứ chưa nói đến việc có bao nhiêu consumer nhận, hay đã nhận được
 thực sự chưa.
@@ -224,7 +223,7 @@ producer, producer đó có thể phân tích để gửi vào hàng đợi chuy
 VnExpress, hoặc đưa vào hàng đợi chuyên xử lí Zing,... Đăng kí vào các hàng đợi
 đó là các crawler tương ứng.
 
-Chú ý rằng một số tài liệu còn nhắc đến một mô hình nhữ của MOM bên cạnh pub-sub
+Chú ý rằng một số tài liệu còn nhắc đến một mô hình nữa của MOM bên cạnh pub-sub
 là mô hình điểm-điểm (point-to-point). Điểm-điểm có thể được coi là một trường
 hợp đặc biệt của pub-sub, với chỉ một producer và một consumer. Khi đã nhắc đến
 mô hình điểm-điểm, các tài liệu này cũng phân biệt luôn hàng đợi và chủ đề: hàng
@@ -315,7 +314,7 @@ sử dụng giao thức AMQP, và cùng lúc cài đặt bộ API JMS.
 \subsection{Giới thiệu}
 
 Kafka là một MOM nã nguồn mở viết bằng Java và Scala. Được phát triển bởi Jay
-Kreps tại LinkedIn vào năm 2011, dự án này đã được ủng hộ cho Apache Software
+Kreps tại LinkedIn vào năm 2011, dự án này đã được trao cho Apache Software
 Foundation và trở thành một trong những MOM phổ biến nhất hiện nay. Kafka được
 chú ý bởi khả năng ghi dữ liệu với tốc độ cao, độ trễ thấp và dễ dàng scale out,
 phù hợp với các ứng dụng cần thu thập dữ liệu thời gian thực \cite{kafka_intro}.
@@ -329,8 +328,8 @@ một khóa, một giá trị, và một nhãn thời gian.
 
 Về cơ bản, Kafka có kiến trúc giống như mọi MOM khác, với ba thành phần
 producer-broker-consumer. Tuy nhiên, phía consumer của Kafka có chút biến tấu.
-Kafka có consumer group, là một nhóm các consumer. Tương tác của
-broker với consumer được thực hiện như sau \cite{kafka_intro, kafka_detail}:
+Kafka có consumer group, là một nhóm các consumer. Tương tác của broker với
+consumer được thực hiện theo hai kiểu như sau: \cite{kafka_intro, kafka_detail}:
 
 \begin{wrapfigure}{r}{0.5\textwidth}
     \begin{center}
@@ -340,10 +339,10 @@ broker với consumer được thực hiện như sau \cite{kafka_intro, kafka_d
 \end{wrapfigure}
 
 \begin{itemize}
-    \item Mỗi thông điệp được broker gửi đên mọi group đã đăng ký vào chủ đề
-    tương ứng: fan-out.
-    \item Trong mỗi group, mỗi thông điệp được gửi đến một consumer: load
-    balancing.
+    \item Fan-out: Mỗi thông điệp được broker gửi đên mọi group đã đăng ký vào
+    chủ đề tương ứng.
+    \item Load balacing: Trong mỗi group, mỗi thông điệp được gửi đến một
+    consumer.
 \end{itemize}
 
 Nhờ có group, Kafka đạt được lợi thế của cả cơ chế fan-out (nhiều loại group
@@ -430,12 +429,12 @@ hệ thống ấy nếu ghi ngẫu nhiên thì chỉ được 1/6000 tốc độ
 
 Do sử dụng cấu trúc log, việc ghi chỉ gồm ghi tuần tự vào cuối file (append),
 việc đọc cũng tuần tự theo thứ tự offset, tốc độ đọc-ghi của Kafka rất nhanh.
-Kết hợp thêm ghi theo lô ở phía producer, prefetch của hệ điều hành, Kafka có
+Kết hợp thêm ghi theo lô ở phía producer và prefetch của hệ điều hành, Kafka có
 thể có thông lượng rất cao mà không nhất thiết phải đầu tư vào SSD đắt tiền.
 
 \subsubsection{Zero copy}
 
-Thông thường, để gửi file qua socket, hệ điều hành cần làm những việc sau:
+Thông thường, để gửi file qua socket, hệ điều hành cần làm lần lượt:
 
 \begin{itemize}
     \item Đọc từ đĩa vào \emph{kernel} pagecache
@@ -445,7 +444,8 @@ Thông thường, để gửi file qua socket, hệ điều hành cần làm nh�
 \end{itemize}
 
 Với 4 lần copy và 2 lệnh hệ thống, cách này rất mất thời gian. Tuy nhiên, các hệ
-điều hành có cơ chế zero copy để copy trực tiếp vào buffer card mạng.
+điều hành hiện đại đều có cơ chế zero copy để copy trực tiếp vào buffer card
+mạng, và Kafka tận dụng cơ chế này.
 
 \subsection{Producer và Consumer}
 
@@ -483,7 +483,8 @@ tưởng của xử lí dữ liệu theo lô (batch data), do để tạo đư�
 phải có một cách phân nhóm hữu ích (ví dụ, nhóm dữ liệu theo năm). Với dữ liệu
 dạng luồng, ngưòi ta chấp nhận rằng dữ liệu không thể được "gom" lại như thế
 (hoặc chỉ "gom" một số điểm dữ liệu gần nhau). Từ đó, hệ thống dữ liệu luồng có
-thể đạng được tốc độ xử lí gần với thời gian thực.
+thể đạng được tốc độ xử lí gần với thời gian thực (do khối dữ liệu dùng để xử lí
+nhỏ).
 
 Các hệ thống MOM mới đều hỗ trợ phần nào các thao tác aggregator và join trong
 xử lí dữ liệu dạng luồng, tuy nhiên với các bài toán phức tạp hơn thì vẫn cần
@@ -513,9 +514,12 @@ Khi producer nhận được link bài báo, nó kiểm tra xem bài báo là c�
 gửi vào topic tương ứng, đến consumer và crawler tương ứng. Dữ liệu crawl được
 sẽ lưu lại ở dạng JSON và lưu ở thư mục gọi producer.
 
-Chú ý do Kafka tối ưu cho việc trao đổi thông tin một chiều/bất đồng bộ, việc
-dựng thêm một topic để trả về tận tay producer là khiên cưỡng, code demo không
-dùng cách này.
+Chú ý, do Kafka tối ưu cho việc trao đổi thông tin một chiều/bất đồng bộ, do đó
+không thế trả ngay dữ liệu crawl về như RMI hay các phương pháp
+request-response. Thông thường nếu muốn tương tác hai chiêu, cần thêm một topic
+nữa, và hai bên đổi vai trò producer-consumer cho nhau. Việc dựng thêm một topic
+để trả về tận tay producer là rất khiên cưỡng, do producer rất nhỏ và chỉ gửi
+thông tin một lần. Vì vậy, code demo không dùng cách này.
 
 \printbibliography
 
