@@ -278,11 +278,11 @@ một tính năng phù hợp, đó là trigger, tuy nhiên tính năng này khô
 thiết kế tốt, được tính toán từ đầu khi tạo ra tiêu chuẩn SQL, mà được thêm vào
 sau đó.
 
-Lý do trên kết hợp với thời gian sống ngắn của dữ liệu (khác với cơ sở dữ liệu
-thường lưu dữ liệu hàng năm trời), và mẫu truy cập tuần tự (khác với mẫu truy
-cập ngẫu nhiên của cơ sở dữ liệu), nên để tối ưu hiệu năng, các broker có cách
-lưu trữ dữ liệu riêng \cite{monitor_stream}, thay vì dùng cơ sở dữ liệu đa dụng
-có sẵn.
+Lý do trên kết hợp với thời gian sống ngắn của dữ liệu (đọc xong ít nhất một lần
+là có thể xóa, khác với cơ sở dữ liệu thường lưu dữ liệu hàng năm trời), và mẫu
+truy cập tuần tự (khác với mẫu truy cập ngẫu nhiên của cơ sở dữ liệu), nên để
+tối ưu hiệu năng, các broker có cách lưu trữ dữ liệu riêng
+\cite{monitor_stream}, thay vì dùng cơ sở dữ liệu đa dụng có sẵn.
 
 Mục \ref{kafka} tiếp theo sẽ giới thiệu một số chi tiết về cách lưu trữ dữ liệu
 của Apache Kafka.
@@ -395,12 +395,10 @@ Có một số lí do mà Kafka chia topic ra thành các partition:
     (nhưng vẫn không nhiều như load balacing) consumer, mỗi consumer xử lí một
     partition.
     \item Đánh đổi hợp lí giữa tốc độ và khả năng đảm bảo thứ tự: Với nhiều ứng
-    dụng, thứ tự của nhận thông điệp giữa hai consumer rất quan trọng. Cách
-    truyền thống là đảm bảo chỉ một consumer xử lí toàn bộ topic. Tuy nhiên
-    Kafka chia topic ra các partition, và giao mỗi partition cho một consumer,
-    do đó Kafka có thể tăng tốc độ xử lí (dĩ nhiên hệ thống sử dụng cũng cần
-    được thiết kế phù hợp).
-
+    dụng, thứ tự thông điệp rất quan trọng. Cách truyền thống là đảm bảo chỉ một
+    consumer xử lí toàn bộ topic. Tuy nhiên Kafka chia topic ra các partition,
+    và giao mỗi partition cho một consumer, do đó Kafka có thể tăng tốc độ xử lí
+    (dĩ nhiên hệ thống sử dụng cũng cần được thiết kế phù hợp).
 \end{itemize}
 
 \subsubsection{Nhân bản: master-slave}
@@ -425,15 +423,17 @@ Có hai lí do chính cho tốc độ cao của Kafka, và đều liên quan đ�
 
 \subsubsection{Đọc ghi tuần tự}
 
-Thông thường, ổ cứng được coi là quá chậm, phần vì lí do công nghệ, phần vì
-người dùng có mẫu truy cập ngẫu nhiên. Theo bài test của Kafka, ổ cứng cơ truyền
-thống nếu chạy RAID và ghi tuần tự có thể có băng thông 600 MB/s, tuy nhiên cùng
-hệ thống ấy nếu ghi ngẫu nhiên thì chỉ được 1/6000 tốc độ ghi tuần tự.
+Thông thường, ổ cứng được coi là quá chậm, phần vì lí do công nghệ ổ cứng, phần
+vì người dùng có mẫu truy cập ngẫu nhiên. Theo bài test của Kafka, ổ cứng cơ
+truyền thống nếu chạy RAID và ghi tuần tự có thể có băng thông 600 MB/s, tuy
+nhiên cùng hệ thống ấy nếu ghi ngẫu nhiên thì chỉ được 1/6000 tốc độ ghi tuần
+tự.
 
 Do sử dụng cấu trúc log, việc ghi chỉ gồm ghi tuần tự vào cuối file (append),
-việc đọc cũng tuần tự theo thứ tự offset, tốc độ đọc-ghi của Kafka rất nhanh.
-Kết hợp thêm ghi theo lô ở phía producer và prefetch của hệ điều hành, Kafka có
-thể có thông lượng rất cao mà không nhất thiết phải đầu tư vào SSD đắt tiền.
+việc đọc cũng tuần tự theo thứ tự offset (do ghi tuần tự nên đọc theo offset
+cũng tuần tự), tốc độ đọc-ghi của Kafka rất nhanh. Kết hợp thêm ghi theo lô ở
+phía producer và prefetch của hệ điều hành, Kafka có thể có thông lượng rất cao
+mà không nhất thiết phải đầu tư vào SSD đắt tiền.
 
 \subsubsection{Zero copy}
 
@@ -477,7 +477,7 @@ thời gian thực. Cụ thể hơn, có hai ca sử dụng phổ biến:
 \end{itemize}
 
 Ngoài ra, với hệ thống lưu trữ được phân mảnh và nhân bản, Kafka có thể đóng vai
-trò làm một hệ thống lưu trữ.
+trò làm một cơ sở dữ liệu.
 
 Điểm khác biệt của Kafka và một số hệ thống đối thủ như ActiveMQ là mức độ hỗ
 trợ cho xử lí dữ liệu dạng luồng (stream data). Dữ liệu dạng luồng coi dữ liệu
