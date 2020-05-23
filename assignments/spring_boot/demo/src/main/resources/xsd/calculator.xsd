@@ -1,14 +1,49 @@
+<!-- XML -->
+
+<!-- xmlns:ns_id=IRI -->
+<!-- Define a namespace IRI, identified by ns_id. -->
+<!-- Namespace is used to group together some elements of the same purpose. -->
+<!-- ns_id:el means element el of namespace ns_id. -->
+<!-- IRI is usually a URL make the namespace unique. -->
+<!-- IRI is important. Many ns_ids use the same IRI and they're treated as one. -->
+<!-- https://stackoverflow.com/questions/1181888/what-does-xmlns-in-xml-mean -->
+<!-- IRI can be anything, even random string lol. -->
+<!-- xmlns without namespace idetifier defines the default one. -->
+<!-- https://stackoverflow.com/questions/25788871/xml-do-child-nodes-inherit-parents-namespace-prefix -->
+<!-- Element without namespace (unqualified) is in the
+     default namespace, which is inherited from ancestors. -->
+
+<!-- xsi: conventional identifier for the INSTANCE namespace. -->
+
+<!-- https://www.w3schools.com/xml/schema_howto.asp -->
+<!-- schemaLocation is used in XML to refer to the XSD that it conforms to. -->
+
+
+<!-- XSD specific -->
+
+<!-- xsd/xs: conventional identifier for the XSD namespace. -->
+
+<!-- https://stackoverflow.com/questions/4126919/what-is-the-difference-between-targetnamespace-and-xmlnstarget -->
+<!-- targetNamespace defines THE namespace that the schema validates. -->
+<!-- https://stackoverflow.com/a/34204799/5959593 -->
+<!-- Root element's namespace of an XML must match with targetNamespace of its validator XSD. -->
+
+<!-- schema element is the root of all XSD. -->
+<!-- It can also be qualified. -->
+<!-- Note: namespace of the XSD itself (xs in this case)
+     needs not to be the same as targetNamespace. -->
+
 <xs:schema
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:tns="http://soa.com/soap/calculator"
     targetNamespace="http://soa.com/soap/calculator"
     elementFormDefault="qualified"
-    >
+>
     <xs:element name="getSumRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="firstSummand"  type="xs:int"/>
-                <xs:element name="secondSummand" type="xs:int"/>
+                <xs:element name="firstSummand"  type="xs:int" />
+                <xs:element name="secondSummand" type="xs:int" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -16,8 +51,8 @@
     <xs:element name="getSumResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="result" type="xs:int"/>
-                <xs:element name="error"  type="xs:string"/>
+                <xs:element name="result" type="xs:int" />
+                <xs:element name="error"  type="xs:string" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
