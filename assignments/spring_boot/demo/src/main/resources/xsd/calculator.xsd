@@ -4,13 +4,13 @@
 <!-- Define a namespace IRI, identified by ns_id. -->
 <!-- Namespace is used to group together some elements of the same purpose. -->
 <!-- ns_id:el means element el of namespace ns_id. -->
-<!-- IRI is usually a URL make the namespace unique. -->
+<!-- IRI is usually a URL to ensure uniqueness. -->
 <!-- IRI is important. Many ns_ids use the same IRI and they're treated as one. -->
 <!-- https://stackoverflow.com/questions/1181888/what-does-xmlns-in-xml-mean -->
 <!-- IRI can be anything, even random string lol. -->
 <!-- xmlns without namespace idetifier defines the default one. -->
 <!-- https://stackoverflow.com/questions/25788871/xml-do-child-nodes-inherit-parents-namespace-prefix -->
-<!-- Element without namespace (unqualified) is in the
+<!-- Element without namespace (i.e. unqualified) is in the
      default namespace, which is inherited from ancestors. -->
 
 <!-- xsi: conventional identifier for the INSTANCE namespace. -->
@@ -27,6 +27,7 @@
 <!-- targetNamespace defines THE namespace that the schema validates. -->
 <!-- https://stackoverflow.com/a/34204799/5959593 -->
 <!-- Root element's namespace of an XML must match with targetNamespace of its validator XSD. -->
+<!-- Therefore, the below schema could omit xs prefix and just set xmlns, instead of xmlns:xs. -->
 
 <!-- schema element is the root of all XSD. -->
 <!-- It can also be qualified. -->
