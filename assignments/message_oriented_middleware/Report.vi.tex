@@ -6,6 +6,7 @@
 % References
 \usepackage{biblatex}
 \addbibresource{references.bib}
+\usepackage[final]{microtype}
 
 % Images
 \usepackage{graphicx}          % Load images
@@ -23,6 +24,9 @@
   \makeatother
 \fi
 \usepackage{svg}
+
+% Change names of document elements
+\renewcommand{\figurename}{Hình}
 
 \usepackage{textcomp}    % For the Trade Mark joke
 
@@ -136,9 +140,9 @@ phải chờ (blocking), gây ra chậm trễ đáng kể và lãng phí thời 
 đề về mạng, hoặc một lí do nào khác không thể gửi/nhận dữ liệu, client phải gửi
 lại.
 
-Với MOM, khi producer gọi muốn gửi dữ liệu sang consumer, producer chỉ cần
-giao dữ liệu cho broker, và broker sẽ tự gửi đến consumer. Ngay sau đó, producer
-có thể làm việc khác, không phí thời gian chờ kết quả. Nếu ngay lúc đó consumer
+Với MOM, khi producer gọi muốn gửi dữ liệu sang consumer, producer chỉ cần giao
+dữ liệu cho broker, và broker sẽ tự gửi đến consumer. Ngay sau đó, producer có
+thể làm việc khác, không phí thời gian chờ kết quả. Nếu ngay lúc đó consumer
 không thể nhận được dữ liệu, broker sẽ chờ đến khi consumer có thể nhận được dữ
 liệu rồi gửi lại, đảm bảo gửi ít nhất một lần.
 
@@ -174,14 +178,14 @@ connected network) mà RPC tạo ra sẽ rất phức tạp và khó bảo trì
 \ref{spaghetti_architectures}.
 
 \begin{figure}[H]
-    \includegraphics[scale=0.5]{spaghetti_architectures.png}
     \centering
+    \includegraphics[scale=0.5]{spaghetti_architectures.png}
     \caption{Kiến trúc Spaghetti\texttrademark \cite{confluent2018}.}
     \label{spaghetti_architectures}
 \end{figure}
 
-Với hai đặc điểm nêu trên, có thể thấy rằng hệ thống sử dụng MOM có thiết kế hoàn
-toàn khác với hệ thống sử dụng RPC:
+Với hai đặc điểm nêu trên, có thể thấy rằng hệ thống sử dụng MOM có thiết kế
+hoàn toàn khác với hệ thống sử dụng RPC:
 
 \begin{itemize}
     \item MOM phù hợp với hệ thống được thiết kế có liên kết lỏng lẻo
@@ -291,7 +295,8 @@ của Apache Kafka.
 
 Khác với cơ sở dữ liệu quan hệ và SQL, không có một tiêu chuẩn thống nhất trong
 toàn ngành về MOM. Tuy nhiên có hai tiêu chuẩn nổi bật hơn cả là Java Message
-Service (JMS) của Java và Advanced Message Queuing Protocol (AMQP) của OASIS/ISO.
+Service (JMS) của Java và Advanced Message Queuing Protocol (AMQP) của
+OASIS/ISO.
 
 \subsubsection{Java Message Service - JMS}
 
@@ -332,14 +337,7 @@ một khóa, một giá trị, và một nhãn thời gian.
 Về cơ bản, Kafka có kiến trúc giống như mọi MOM khác, với ba thành phần
 producer-broker-consumer. Tuy nhiên, phía consumer của Kafka có chút biến tấu.
 Kafka có consumer group, là một nhóm các consumer. Tương tác của broker với
-consumer được thực hiện theo hai kiểu như sau: \cite{kafka_intro, kafka_detail}:
-
-\begin{wrapfigure}{r}{0.5\textwidth}
-    \begin{center}
-      \includegraphics[width=0.42\textwidth]{consumer_groups.png}
-    \end{center}
-    \caption{Consumer group trong Kafka.}
-\end{wrapfigure}
+consumer được thực hiện theo hai kiểu như sau: \cite{kafka_detail}:
 
 \begin{itemize}
     \item Fan-out: Mỗi thông điệp được broker gửi đên mọi group đã đăng ký vào
@@ -347,6 +345,12 @@ consumer được thực hiện theo hai kiểu như sau: \cite{kafka_intro, kaf
     \item Load balacing: Trong mỗi group, mỗi thông điệp được gửi đến một
     consumer.
 \end{itemize}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.42\textwidth]{consumer_groups.png}
+    \caption{Consumer group trong Kafka.}
+\end{wrapfigure}
 
 Nhờ có group, Kafka đạt được lợi thế của cả cơ chế fan-out (nhiều loại group
 consumer) và cơ chế load balancing (nhiều consumer để tăng tốc xử lý).
@@ -388,7 +392,8 @@ thể trỏ offset về sâu nữa để xử lí dữ liệu cũ nếu cần.
 Có một số lí do mà Kafka chia topic ra thành các partition:
 
 \begin{itemize}
-    \item Scale out: Nếu topic quá lớn, chỉ cần thêm máy broker và thêm partition.
+    \item Scale out: Nếu topic quá lớn, chỉ cần thêm máy broker và thêm
+    partition.
     \item Tăng tốc xử lí: Một số trường hợp cần xử lí dữ liệu theo đúng trình tự
     thời gian, do đó chỉ được một consumer xử lí. Nếu không có partition, một
     consumer đó phải xử lí cả một topic. Vì có partition nên có thể dùng nhiều
@@ -524,6 +529,7 @@ nữa, và hai bên đổi vai trò producer-consumer cho nhau. Việc dựng th
 để trả về tận tay producer là rất khiên cưỡng, do producer rất nhỏ và chỉ gửi
 thông tin một lần. Vì vậy, code demo không dùng cách này.
 
-\printbibliography
+\emergencystretch=1em
+\printbibliography[title={Tài liệu tham khảo}]
 
 \end{document}
