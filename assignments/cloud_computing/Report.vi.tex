@@ -11,6 +11,9 @@
 \usepackage{float}             % Insert images at the current position using [h]
 \graphicspath{ {./images/} }
 
+% Change names of document elements
+\renewcommand{\figurename}{Hình}
+
 
 \author{Nguyễn Việt Minh Nghĩa \\ \href{mailto:nvmnghia@gmail.com}{nvmnghia@gmail.com}}
 
@@ -111,7 +114,7 @@ Mô hình này gồm năm đặc tính:
     mọi người dùng chung, sao cho sự riêng tư vẫn được đảm bảo. Dịch vụ cần đạt
     đưọc sự trong suốt về vị trí, theo nghĩa là người dùng không cần kiểm soát
     hay biết vị trí địa lí của tài nguyên, nhưng có thể chỉ định vị trí ở mức
-    cao hơn (quốc gia, địa điểm, trung tâm dữ liệu,...).
+    cao hơn (quốc gia, địa điểm, trung tâm dữ liệu, ...).
     \item Cung cấp tài nguyên linh hoạt: tài nguyên có thể được cung cấp cho
     người dùng một cách tự động, không cần người dùng biết, tùy theo mức tải.
     Với người dùng, dịch vụ trông gần như vô tận.
@@ -119,7 +122,7 @@ Mô hình này gồm năm đặc tính:
     dụng tài nguyên bằng các công cụ đo lường. Chi phí sử dụng được tính theo
     các thông số đo đạc này. Các thông số có thể là số server sử dụng, giống như
     nhiều dịch vụ trước đó, nhưng cũng có thể là những thông số kĩ thuật như số
-    CPU, IOPS,... Thông tin sử dụng có thể đưọc theo dõi, báo cáo cho cả người
+    CPU, IOPS, ... Thông tin sử dụng có thể đưọc theo dõi, báo cáo cho cả người
     dùng và nhà cung cấp dịch vụ.
 \end{itemize}
 
@@ -181,8 +184,8 @@ có thể truy cập thuận tiện tăng lên đáng kể, bao gồm cả đi�
 Các loại dịch vụ SaaS có thể chia tiếp làm hai loại:
 
 \begin{itemize}
-    \item Dịch vụ cho tập đoàn: CRM, quản lí tài chính/thuế,...
-    \item Ứng dụng Web 2.0: mạng xã hội, blog,...
+    \item Dịch vụ cho tập đoàn: CRM, quản lí tài chính/thuế, ...
+    \item Ứng dụng Web 2.0: mạng xã hội, blog, ...
 \end{itemize}
 
 \subsubsection{Hạ tầng dạng dịch vụ}
@@ -220,7 +223,7 @@ giới hạn một số cài đặt về môi trường. Tùy theo nhà cung c�
 thể được nới lỏng hay thắt chặt, tuy nhiên một điểm chung đó là các dịch vụ PaaS
 không cho phép tùy ý lựa chọn hệ điều hành. Thông thường, người dùng được tải
 ứng dụng/mã nguồn của mình lên, và nó phải tương thích với môi trường (hệ điều
-hành,...) đã chọn trước. Nhà cung cấp thường cung cấp một số thư viện riêng để
+hành, ...) đã chọn trước. Nhà cung cấp thường cung cấp một số thư viện riêng để
 ứng dụng có thể làm việc tốt với môi trường đã chọn thay vì cho phép người dùng
 cài đặt tùy thích các phần mềm bên thứ ba.
 
@@ -440,6 +443,7 @@ thống này không cần đưa lên mây vì hiện tại đủ tốt, tuy nhi�
 sao lưu dữ liệu thường xuyên, một số nhà cung cấp dịch vụ điện toán đám mây ở
 Việt Nam đã hỗ trợ dịch vụ lưu trữ lâu dài cần thiết cho sao lưu.
 
-\printbibliography
+\emergencystretch=1em
+\printbibliography[title={Tài liệu tham khảo}]
 
 \end{document}
