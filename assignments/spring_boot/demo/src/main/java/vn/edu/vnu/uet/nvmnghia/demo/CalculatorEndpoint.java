@@ -9,14 +9,14 @@ import uet.soa.soap.GetSumRequest;
 import uet.soa.soap.GetSumResponse;
 
 
-@Endpoint
+@Endpoint    // Register to Spring-WS that it can handle the request
 public class CalculatorEndpoint {
 
     static final String NAMESPACE_URI = "http://soa.com/soap/calculator";
 
-    @PayloadRoot(
-        namespace = NAMESPACE_URI,     // What the hell
-        localPart = "getSumRequest"    // are they?
+    @PayloadRoot(                      // Register to Spring-WS that it can handle request
+        namespace = NAMESPACE_URI,     // of the given namespace
+        localPart = "getSumRequest"    // and localPart (see calculator.xsd for local part)
     )
     @ResponsePayload
     public GetSumResponse sum(@RequestPayload GetSumRequest request) {

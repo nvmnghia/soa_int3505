@@ -2,18 +2,20 @@
 
 <!-- xmlns:ns_id=IRI -->
 <!-- Define a namespace IRI, identified by ns_id. -->
-<!-- Namespace is used to group together some elements of the same purpose. -->
+
 <!-- ns_id:el means element el of namespace ns_id. -->
+<!-- Namespace is used to group together some elements of the same purpose. -->
+<!-- Element with namespace is qualified. -->
+<!-- More generally: prefix:local_part. -->
+
 <!-- IRI is usually a URL to ensure uniqueness. -->
 <!-- IRI is important. Many ns_ids use the same IRI and they're treated as one. -->
 <!-- https://stackoverflow.com/questions/1181888/what-does-xmlns-in-xml-mean -->
 <!-- IRI can be anything, even random string lol. -->
 <!-- xmlns without namespace idetifier defines the default one. -->
 <!-- https://stackoverflow.com/questions/25788871/xml-do-child-nodes-inherit-parents-namespace-prefix -->
-<!-- Element without namespace (i.e. unqualified) is in the
-     default namespace, which is inherited from ancestors. -->
-
-<!-- xsi: conventional identifier for the INSTANCE namespace. -->
+<!-- Unqualified element is in the default namespace,
+     which is inherited from ancestors's default. -->
 
 <!-- https://www.w3schools.com/xml/schema_howto.asp -->
 <!-- schemaLocation is used in XML to refer to the XSD that it conforms to. -->
@@ -21,18 +23,25 @@
 
 <!-- XSD specific -->
 
-<!-- xsd/xs: conventional identifier for the XSD namespace. -->
+<!-- Root element must be <schema> -->
+
+<!-- xsi:    conventional identifier for the INSTANCE namespace. -->
+<!-- xsd/xs: conventional identifier for the SCHEMA namespace. -->
 
 <!-- https://stackoverflow.com/questions/4126919/what-is-the-difference-between-targetnamespace-and-xmlnstarget -->
-<!-- targetNamespace defines THE namespace that the schema validates. -->
+<!-- targetNamespace defines THE namespace that the schema validates,
+     and is not related to the namespace of the XSD itself. -->
 <!-- https://stackoverflow.com/a/34204799/5959593 -->
-<!-- Root element's namespace of an XML must match with targetNamespace of its validator XSD. -->
-<!-- Therefore, the below schema could omit xs prefix and just set xmlns, instead of xmlns:xs. -->
+<!-- Root element's namespace of an XML should match
+     targetNamespace of its validator XSD. -->
+<!-- Therefore, the below schema could omit xs prefix
+     and just set xmlns, instead of xmlns:xs. -->
 
-<!-- schema element is the root of all XSD. -->
-<!-- It can also be qualified. -->
-<!-- Note: namespace of the XSD itself (xs in this case)
-     needs not to be the same as targetNamespace. -->
+
+<!-- WSDL specific -->
+<!-- Message elements' name attributes end with either
+     - Request, or
+     - Response -->
 
 <xs:schema
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
