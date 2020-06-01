@@ -7,15 +7,15 @@
 <!-- Namespace is used to group together some elements of the same purpose. -->
 <!-- Element with namespace is qualified. -->
 <!-- More generally: prefix:local_part. -->
+<!-- https://stackoverflow.com/questions/25788871/xml-do-child-nodes-inherit-parents-namespace-prefix -->
+<!-- Unqualified element is in the default namespace,
+     which is inherited from ancestors's default. -->
 
 <!-- IRI is usually a URL to ensure uniqueness. -->
 <!-- IRI is important. Many ns_ids use the same IRI and they're treated as one. -->
 <!-- https://stackoverflow.com/questions/1181888/what-does-xmlns-in-xml-mean -->
 <!-- IRI can be anything, even random string lol. -->
 <!-- xmlns without namespace idetifier defines the default one. -->
-<!-- https://stackoverflow.com/questions/25788871/xml-do-child-nodes-inherit-parents-namespace-prefix -->
-<!-- Unqualified element is in the default namespace,
-     which is inherited from ancestors's default. -->
 
 <!-- https://www.w3schools.com/xml/schema_howto.asp -->
 <!-- schemaLocation is used in XML to refer to the XSD that it conforms to. -->
@@ -38,10 +38,12 @@
      and just set xmlns, instead of xmlns:xs. -->
 
 
-<!-- WSDL specific -->
-<!-- Message elements' name attributes end with either
+<!-- WSDL generation specific -->
+<!-- In XSD, message elements' name attributes end with either
      - Request, or
-     - Response -->
+     - Response
+     These suffixes can be changed in WSDL config. -->
+<!-- WSDL can be generated only if XSD follows this suffix convention. -->
 
 <xs:schema
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
