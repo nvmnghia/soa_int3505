@@ -318,18 +318,36 @@ hs_err_pid*
 
 
 #####
-# Spring framework
-#####
-
-
-
-
-#####
 # LibreOffice
 #####
 
 # Libre Office lock files
 .~lock*
+
+
+#####
+# MS Office
+#####
+
+*.tmp
+
+# Word temporary
+~$*.doc*
+
+# Word Auto Backup File
+Backup of *.doc*
+
+# Excel temporary
+~$*.xls*
+
+# Excel Backup File
+*.xlk
+
+# PowerPoint temporary
+~$*.ppt*
+
+# Visio autosave temporary files
+*.~vsd*
 
 
 #####

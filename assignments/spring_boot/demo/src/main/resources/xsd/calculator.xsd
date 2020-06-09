@@ -25,8 +25,8 @@
 
 <!-- Root element must be <schema> -->
 
-<!-- xsi:    conventional identifier for the INSTANCE namespace. -->
-<!-- xsd/xs: conventional identifier for the SCHEMA namespace. -->
+<!-- xsi:    conventional identifier for the INSTANCE (xml) namespace. -->
+<!-- xsd/xs: conventional identifier for the SCHEMA (xsd itself) namespace. -->
 
 <!-- https://stackoverflow.com/questions/4126919/what-is-the-difference-between-targetnamespace-and-xmlnstarget -->
 <!-- targetNamespace defines THE namespace that the schema validates,
@@ -36,6 +36,16 @@
      targetNamespace of its validator XSD. -->
 <!-- Therefore, the below schema could omit xs prefix
      and just set xmlns, instead of xmlns:xs. -->
+
+<!-- XSD can defines/validates:
+     - Type
+     - Name
+     - Order
+     - Number of occurences
+     - Attributes
+     - Default values
+     - ...
+     of an element. -->
 
 
 <!-- WSDL generation specific -->
@@ -52,10 +62,18 @@
     elementFormDefault="qualified"
 >
     <xs:element name="getSumRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="firstSummand"  type="xs:int" />
-                <xs:element name="secondSummand" type="xs:int" />
+        <xs:complexType>    <!-- Element contains other elements. Also used to define custom type. -->
+            <xs:sequence maxOccurs="1" >    <!-- Children must be in exact order. -->
+                    <!-- min/maxOccurs: num of child occurence. Default to 1.
+                         If minOccurs > 1, maxOccurs must also be set to avoid default 1.
+                         Occurence count at the whole block, e.g. if minOccurs = 2:
+                         <first>
+                         <second>
+                         <first>
+                         <second> -->
+                <xs:element name="firstSummand"  type="xs:int" default="0" />
+                <xs:element name="secondSummand" type="xs:int" nillable="false" />
+                                            <!-- type: int/string/boolean/date/... -->
             </xs:sequence>
         </xs:complexType>
     </xs:element>
