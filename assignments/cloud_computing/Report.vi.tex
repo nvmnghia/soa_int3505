@@ -181,7 +181,7 @@ xử lí nặng nề được chuyển về máy chủ), tuy nhiên SaaS có l�
 can thiệp của người dùng, chỉ tập trung vào trải nghiệm, do đó số loại thiết bị
 có thể truy cập thuận tiện tăng lên đáng kể, bao gồm cả điện thoại thông minh.
 
-Các loại dịch vụ SaaS có thể chia tiếp làm hai loại:
+Các loại dịch vụ SaaS có thể chia tiếp làm hai loại, theo \cite{MARINESCU201813}:
 
 \begin{itemize}
     \item Dịch vụ cho tập đoàn: CRM, quản lí tài chính/thuế, ...
@@ -204,7 +204,7 @@ muốn đầu tư quá nhiều vào hạ tầng. Khả năng truy cập sâu nà
 dùng cài đặt tính năng tự động tăng giảm quy mô tính toán (auto-scaling).
 
 Ví dụ đáng chú ý nhất của mô hình này là Amazon Web Service. Ra đời vào năm
-2006, đồng thời là dịch vụ kích hoạt cuộc đua đám mây, đây luôn là dịch vụ đi
+2006, AWS là dịch vụ kích hoạt cuộc đua đám mây, đồng thời luôn là dịch vụ đi
 đầu, giúp thúc đấy sự phát triển của điện toán đám mây. Người dùng có rất nhiều
 dịch vụ chuyên biệt để lựa chọn, trong đó quan trọng nhất là Elastic Compute
 Cloud (EC2). EC2 cho phép người dùng chọn trước cấu hình của từng đơn vị máy chủ
@@ -214,6 +214,9 @@ quy mô phần cứng (auto-scaling group, bằng việc tăng giảm số lư�
 Tính mềm dẻo, thể hiện cả trong auto-scaling lẫn việc tính toán thời gian dùng ở
 mức chi tiết rất cao (thời gian sử dụng có thể tính theo giây), là điểm khiến
 EC2 là dịch vụ khác biệt với các công nghệ trước đó, tại thời điểm ra mắt.
+
+IaaS thường chính là nền tảng đầu tiên để các mô hình còn lại trong kiểu phân
+loại này hoạt động.
 
 \subsubsection{Nền tảng dạng dịch vụ}
 
@@ -232,9 +235,6 @@ lên mã nguồn ở nhiều ngôn ngữ, có thư viện để lưu dữ liệu
 (thay cho các ứng dụng cơ sở dữ liệu OLTP/OLAP truyền thống), dùng ngôn ngữ truy
 vấn riêng, và hạn chế truy cập vào hệ điều hành.
 
-IaaS thường chính là nền tảng đầu tiên để các mô hình còn lại trong kiểu phân
-loại này hoạt động.
-
 \subsubsection{Mở rộng: FaaS và DBaaS}
 
 Mở rộng định nghĩa XaaS, ta có thêm Function-aaS và Database-aaS. Hai loại hình
@@ -242,11 +242,12 @@ này không nằm trong phân loại của NIST (do không thể hiện tính ph
 nhưng gần đây được nhắc đến nhiều do sự dễ dàng sử dụng. Cả hai đều ít nhiều
 liên quan đến và/hoặc hay bị nhầm với PaaS.
 
-"Hàm" trong hàm ở dạng dịch vụ có ý so sánh với hàm - khối logic nhỏ nhất trong
-lập trình. FaaS thường có một số đặc điểm như sau:
+"Hàm" trong "hàm ở dạng dịch vụ" có ý so sánh với hàm - khối logic nhỏ nhất
+trong lập trình. FaaS thường có một số đặc điểm như sau:
 
 \begin{itemize}
-    \item Chỉ chấp nhận mã nguồn nhỏ gọn: FaaS cho phép kiểm soát môi trường ít
+    \item Chỉ chấp nhận mã nguồn nhỏ gọn
+    \item Kiểm soát môi trường tối thiểu: FaaS cho phép kiểm soát môi trường ít
     hơn cả PaaS, có thể triển khai mà gần như không cần cấu hình.
     \item Kích hoạt khi cần: Ứng dụng không có process chờ kết nối mà được môi
     trường của nhà cung cấp kích hoạt khi cần.
@@ -416,12 +417,14 @@ trọng đáng kể. Hệ thống này chỉ dành cho một số cán bộ qu�
 
 \subsubsection{Hệ thống đăng kí học và Hệ thống báo điểm}
 
-Do đặc điểm tải tăng mạnh nhưng lại dự đoán được thời điểm, đây là hệ thống lí
-tưởng để triển khai trên hạ tầng điện toán đám mây. Với nguồn thu tăng (tăng học
-sinh, tăng học phí, có chương trình thông tư 32), tải có sự phân cực rõ rệt,
-đồng thời thời gian đạt đỉnh rất ngắn, việc đưa hệ thống này lên mây là nhu cầu
-bức thiết của sinh viên. Nhìn chung đây cũng là vấn đề của đại đa số đại học
-trên cả nước, nếu thực hiện tốt sẽ tạo hình ảnh tích cực về trường.
+Do đặc điểm tải tăng mạnh, phân cực rõ rệt, nhưng lại dự đoán được thời điểm,
+đồng thời thời gian đạt đỉnh ngắn, đây là hệ thống lí tưởng để triển khai trên
+hạ tầng điện toán đám mây.
+
+Trong bối cảnh nguồn thu tăng (tăng học sinh, tăng học phí, có chương trình
+thông tư 32), việc cải thiện hệ thống đăng kí học là nhu cầu bức thiết của sinh
+viên. Nhìn chung đây cũng là vấn đề của đại đa số đại học trên cả nước, nếu thực
+hiện tốt sẽ tạo hình ảnh tích cực về trường.
 
 \subsubsection{Hệ thống thông tin thư viện}
 
