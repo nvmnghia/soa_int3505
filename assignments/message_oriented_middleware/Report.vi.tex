@@ -70,10 +70,10 @@ Có rất nhiều cơ chế để liên lạc giữa các tiến trình với nh
 đó có RPC - Remote Procedure Call. Hai trong những lí do cho sự phổ biến của RPC
 là nó có thể giúp cho các tiến trình ở các máy khác nhau giao tiếp được với
 nhau, đồng thời không phụ thuộc vào ngôn ngữ. Nhiều phương pháp cũ hơn như file,
-pipe, shared memory, ... đều không thể thực hiện việc này \cite{osc12}. Tuy
+pipe, shared memory, ... đều không thể thực hiện điểm đầu tiên \cite{osc12}. Tuy
 nhiên, RPC và các biến thể của nó như ORB rất khó đáp ứng với các yêu cầu mới về
-độ ổn định, khả năng hoạt động liên tục và hiệu năng, khiến nó dần trở nên lỗi
-thời.
+độ ổn định, khả năng hoạt động liên tục và hiệu năng, đồng thời có bất lợi là
+cách sử dụng phức tạp, khiến chúng dần trở nên lỗi thời.
 
 Để giải quyết các hạn chế của RPC, có một cơ chế mới đang được sử dụng rất nhiều
 hiện nay là Message-oriented Middleware, viết tắt là MOM.
@@ -464,14 +464,14 @@ overhead.
 
 \subsubsection{Consumer}
 
-Giống với đa số các MOM khác, consumer lấy dữ liệu từ broker chứ không phải
-broker "đẩy" dữ liệu xuống consumer.
+Giống với đa số các MOM khác, trong cài đặt thực tế, consumer lấy dữ liệu từ
+broker chứ không phải broker "đẩy" dữ liệu xuống consumer.
 
 \subsection{Ứng dụng}
 
-Ứng dụng quan trọng nhất của Kafka chính là làm một hệ thống MOM.  Trong vai trò
-này, Kafka đã được sử dụng thành công trong các hệ thống lớn, yêu cầu tốc độ
-thời gian thực. Cụ thể hơn, có hai ca sử dụng phổ biến:
+Ứng dụng quan trọng nhất của Kafka chính là làm một hệ thống MOM. Trong vai trò
+này, Kafka đã được sử dụng thành công trong các hệ thống lớn, yêu cầu xử lí thời
+gian thực. Cụ thể hơn, có hai ca sử dụng phổ biến:
 
 \begin{itemize}
     \item Event sourcing: Là một mô hình thiết kế. Trong mô hình này, các thay
@@ -492,7 +492,7 @@ phải có một cách phân nhóm hữu ích (ví dụ, nhóm dữ liệu theo 
 dạng luồng, ngưòi ta chấp nhận rằng dữ liệu không thể được "gom" lại như thế
 (hoặc chỉ "gom" một số điểm dữ liệu gần nhau). Từ đó, hệ thống dữ liệu luồng có
 thể đạng được tốc độ xử lí gần với thời gian thực (do khối dữ liệu dùng để xử lí
-nhỏ).
+nhỏ, không phải chờ thu thập đủ dữ liệu).
 
 Các hệ thống MOM mới đều hỗ trợ phần nào các thao tác aggregator và join trong
 xử lí dữ liệu dạng luồng, nhưng với các bài toán phức tạp hơn thì vẫn cần những

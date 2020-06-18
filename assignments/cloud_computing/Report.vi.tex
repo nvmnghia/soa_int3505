@@ -232,8 +232,8 @@ cài đặt tùy thích các phần mềm bên thứ ba.
 
 Ví dụ cho mô hình này là Google App Engine. App Engine cho phép người dùng tải
 lên mã nguồn ở nhiều ngôn ngữ, có thư viện để lưu dữ liệu vào Bigtable/BigQuery
-(thay cho các ứng dụng cơ sở dữ liệu OLTP/OLAP truyền thống), dùng ngôn ngữ truy
-vấn riêng, và hạn chế truy cập vào hệ điều hành.
+(tương ứng thay cho các ứng dụng cơ sở dữ liệu OLTP/OLAP truyền thống), dùng
+ngôn ngữ truy vấn riêng, và hạn chế truy cập vào hệ điều hành.
 
 \subsubsection{Mở rộng: FaaS và DBaaS}
 
@@ -279,10 +279,10 @@ này, toàn bộ hạ tầng được dùng để phục vụ một tổ chức 
 được quản lí bởi một bộ phận hoặc bên thứ ba, có thể đặt tại công ty hoặc ở một
 địa điểm khác, có thể là công ty tự mua và cài đặt hoặc thuê trọn gói một phần
 của các nhà cung cấp dịch vụ lớn. Do chi phí đầu tư và quản lí quá lớn (kể cả
-trong trường hợp dùng dịch vụ của các công ty lớn), một mạng đám mây riêng
-thường yêu cầu chặt chẽ về mặt quy trình, được tích hợp tốt, dự đoán được các mở
-rộng trong tương lai, thì mới có hiệu quả về mặt chi phí tổng thể so với việc
-thuê thông thường.
+khi dùng dịch vụ thuê riêng của các công ty điện toán đám mây lớn), một mạng đám
+mây riêng thường phải được thiết kế tốt (phù hợp với nghiệp vụ, dự đoán được nhu
+cầu mở rộng trong tương lai, ...) thì mới có hiệu quả về mặt chi phí tổng thể so
+với việc thuê thông thường.
 
 Ví dụ về điện toán đám mây dùng riêng là Amazon Virtual Private Cloud - Amazon
 cho thuê riêng các instance, cho người dùng nhiều quyền hơn cả gói IaaS thông
@@ -317,8 +317,7 @@ Từng hạ tầng vẫn do tổ chức riêng quản lý, tuy nhiên trong trư
 có thể chia sẽ tài nguyên cho nhau. Hạ tầng giao tiếp giữa các mạng thưòng rất
 phức tạp, và có thể yêu cầu sự tương thích từ các phần mềm cốt lõi hẹ thống. Một
 ví dụ cho khả năng của mô hình này là việc cân bằng tải giữa hai mô hình hạ tầng
-khác nhau (sau cùng, hạ tầng đám mây cũng vẫn cung cấp tài nguyên tính toán và
-lưu trữ).
+khác nhau.
 
 \section{Phân tích khả năng sử dụng điện toán đám mây của Đại học Quốc gia Hà Nội}
 
