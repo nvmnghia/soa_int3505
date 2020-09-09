@@ -165,7 +165,7 @@ biết thông tin của bên "nhận" - consumer. Producer không cần biết r
 nào nhận, chứ chưa nói đến việc có bao nhiêu consumer nhận, hay đã nhận được
 thực sự chưa.
 
-Nói đơn giản, với producer và ngưòi dùng, MOM là một dịch vụ gửi thông điệp theo
+Nói đơn giản, với producer và người dùng, MOM là một dịch vụ gửi thông điệp theo
 kiểu bắn-và-quên. Hệ thống MOM do đó đạt được sự tách rời gửi-nhận.
 
 Tiếp tục so sánh với RPC, bên gửi cần biết thông tin về bên nhận (ví dụ như địa
@@ -337,7 +337,7 @@ một khóa, một giá trị, và một nhãn thời gian.
 Về cơ bản, Kafka có kiến trúc giống như mọi MOM khác, với ba thành phần
 producer-broker-consumer. Tuy nhiên, phía consumer của Kafka có chút biến tấu.
 Kafka có consumer group, là một nhóm các consumer. Tương tác của broker với
-consumer được thực hiện theo hai kiểu như sau: \cite{kafka_detail}:
+consumer được thực hiện theo hai kiểu như sau \cite{kafka_detail}:
 
 \begin{itemize}
     \item Fan-out: Mỗi thông điệp được broker gửi đên mọi group đã đăng ký vào
@@ -397,16 +397,13 @@ Có một số lí do mà Kafka chia topic ra thành các partition:
 \begin{itemize}
     \item Scale out: Nếu topic quá lớn, chỉ cần thêm máy broker và thêm
     partition.
-    \item Tăng tốc xử lí: Một số trường hợp cần xử lí dữ liệu theo đúng trình tự
-    thời gian, do đó chỉ được một consumer xử lí. Nếu không có partition, một
-    consumer đó phải xử lí cả một topic. Vì có partition nên có thể dùng nhiều
-    (nhưng vẫn không nhiều như load balacing) consumer, mỗi consumer xử lí một
-    partition.
     \item Đánh đổi hợp lí giữa tốc độ và khả năng đảm bảo thứ tự: Với nhiều ứng
     dụng, thứ tự thông điệp rất quan trọng. Cách truyền thống là đảm bảo chỉ một
     consumer xử lí toàn bộ topic. Tuy nhiên Kafka chia topic ra các partition,
-    và giao mỗi partition cho một consumer, do đó Kafka có thể tăng tốc độ xử lí
-    (dĩ nhiên hệ thống sử dụng cũng cần được thiết kế phù hợp).
+    và giao mỗi partition cho một consumer. Với mỗi consumer, thứ tự thông điệp
+    được đảm bảo, do đó có thể tăng tốc xử lí theo kiểu fan-out. Tuy nhiên, thứ
+    tự thông điệp giữa các consumer không được đảm bảo, do đó ứng dụng cũng phải
+    được thiết kế phù hợp.
 \end{itemize}
 
 \subsubsection{Nhân bản: master-slave}
@@ -493,9 +490,9 @@ là một luồng đến và đi liên tục. Đây là quan điểm khác với
 tưởng của xử lí dữ liệu theo lô (batch data), do để tạo được "lô" thì dữ liệu
 phải có một cách phân nhóm hữu ích (ví dụ, nhóm dữ liệu theo năm). Với dữ liệu
 dạng luồng, ngưòi ta chấp nhận rằng dữ liệu không thể được "gom" lại như thế
-(hoặc chỉ "gom" một số điểm dữ liệu gần nhau). Từ đó, hệ thống dữ liệu luồng có
-thể đạng được tốc độ xử lí gần với thời gian thực (do khối dữ liệu dùng để xử lí
-nhỏ, không phải chờ thu thập đủ dữ liệu).
+(hoặc chỉ "gom" một số điểm dữ liệu gần nhau). Do khối dữ liệu dùng để xử lí nhỏ
+và không phải chờ thu thập đủ dữ liệu, hệ thống dữ liệu luồng có thể đạt được
+tốc độ xử lí gần với thời gian thực.
 
 Các hệ thống MOM mới đều hỗ trợ phần nào các thao tác aggregator và join trong
 xử lí dữ liệu dạng luồng, nhưng với các bài toán phức tạp hơn thì vẫn cần những
