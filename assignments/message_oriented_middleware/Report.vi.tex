@@ -189,7 +189,7 @@ hoàn toàn khác với hệ thống sử dụng RPC:
 
 \begin{itemize}
     \item MOM phù hợp với hệ thống được thiết kế có liên kết lỏng lẻo
-    (loose-coupling).
+        (loose-coupling).
     \item RPC phù hợp với hệ thống cần liên lạc hai chiều.
 \end{itemize}
 
@@ -266,7 +266,7 @@ tắc, một cơ sở dữ liệu là đủ để tạo ra một broker:
 \begin{itemize}
     \item Producer ghi thông điệp vào cơ sở dữ liệu.
     \item Consumer đọc thông điệp ra theo chu kì (polling), lấy dữ liệu từ sau
-    lần đọc gần nhất.
+        lần đọc gần nhất.
 \end{itemize}
 
 Tuy nhiên, do yêu cầu ngày càng tăng về tốc độ, việc consumer chủ động đọc dữ
@@ -341,9 +341,9 @@ consumer được thực hiện theo hai kiểu như sau \cite{kafka_detail}:
 
 \begin{itemize}
     \item Fan-out: Mỗi thông điệp được broker gửi đên mọi group đã đăng ký vào
-    chủ đề tương ứng.
+        chủ đề tương ứng.
     \item Load balacing: Trong mỗi group, mỗi thông điệp được gửi đến một
-    consumer.
+        consumer.
 \end{itemize}
 
 \begin{wrapfigure}{r}{0.5\textwidth}
@@ -393,14 +393,14 @@ Có một số lí do mà Kafka chia topic ra thành các partition:
 
 \begin{itemize}
     \item Scale out: Nếu topic quá lớn, chỉ cần thêm máy broker và thêm
-    partition.
+        partition.
     \item Đánh đổi hợp lí giữa tốc độ và khả năng đảm bảo thứ tự: Với nhiều ứng
-    dụng, thứ tự thông điệp rất quan trọng. Cách truyền thống là đảm bảo chỉ một
-    consumer xử lí toàn bộ topic. Tuy nhiên Kafka chia topic ra các partition,
-    và giao mỗi partition cho một consumer. Với mỗi consumer, thứ tự thông điệp
-    được đảm bảo, do đó có thể tăng tốc xử lí theo kiểu fan-out. Tuy nhiên, thứ
-    tự thông điệp giữa các consumer không được đảm bảo, do đó ứng dụng cũng phải
-    được thiết kế phù hợp.
+        dụng, thứ tự thông điệp rất quan trọng. Cách truyền thống là đảm bảo chỉ
+        một consumer xử lí toàn bộ topic. Tuy nhiên Kafka chia topic ra các
+        partition, và giao mỗi partition cho một consumer. Với mỗi consumer, thứ
+        tự thông điệp được đảm bảo, do đó có thể tăng tốc xử lí theo kiểu
+        fan-out. Tuy nhiên, thứ tự thông điệp giữa các consumer không được đảm
+        bảo, do đó ứng dụng cũng phải được thiết kế phù hợp.
 \end{itemize}
 
 \subsubsection{Nhân bản: master-slave}
@@ -416,7 +416,7 @@ Có hai lí do mà Kafka cần nhân bản partition:
 \begin{itemize}
     \item Sao lưu
     \item Tăng tốc đọc: consumer có thể đọc từ nhiều máy broker (có từ Kafka
-    2.4)
+        2.4)
 \end{itemize}
 
 \subsection{Nhập/xuất hiệu năng cao}
@@ -472,9 +472,9 @@ gian thực. Cụ thể hơn, có hai ca sử dụng phổ biến:
 
 \begin{itemize}
     \item Event sourcing: Là một mô hình thiết kế. Trong mô hình này, các thay
-    đổi trạng thái của dữ liệu được ghi lại và được gửi đến các hệ thống khác
-    thông qua MOM. Với chuỗi các thay đổi này, bên nhận có thể "replay" và đạt
-    được trạng thái dữ liệu của bên gửi.
+        đổi trạng thái của dữ liệu được ghi lại và được gửi đến các hệ thống
+        khác thông qua MOM. Với chuỗi các thay đổi này, bên nhận có thể "replay"
+        và đạt được trạng thái dữ liệu của bên gửi.
     \item Analytic pipeline:
 \end{itemize}
 
