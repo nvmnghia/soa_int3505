@@ -214,16 +214,16 @@ Phần này tập trung vào phân tích một số khía cạnh về cách brok
 
 Thông thường, các broker quản lý việc truyền thông điệp bằng cách chia ra các
 \emph{hàng chờ} (queue) hay \emph{chủ đề} (topic); hai từ này nhìn chung được
-dùng tương đương nhau. Khi một producer \emph{xuất bản} gửi một thông điệp vào
-một hàng chờ, thông điệp đó sẽ được gửi đến các consumer đã \emph{đăng kí} nhận
-thông điệp từ hàng chờ đó, chứ không phải là gửi đến mọi consumer trong toàn hệ
-thống. Cơ chế này được gọi là \emph{xuất bản-đăng kí} (publish-subscribe, hay
-viết tắt là pub/sub).
+dùng tương đương nhau. Khi một producer \emph{xuất bản} - tức gửi - một thông
+điệp vào một hàng chờ, thông điệp này sẽ được gửi đến các consumer đã \emph{đăng
+kí} nhận thông điệp từ hàng chờ đó. Nói cách khác producer không phải gửi đến
+mọi consumer trong toàn hệ thống. Cơ chế này được gọi là \emph{xuất bản-đăng kí}
+(publish-subscribe, hay viết tắt là pub/sub).
 
 Cơ chế pub/sub có thể coi là một bước trừu tượng hóa trên các cơ chế cũ như RPC.
 Với RPC, bên gửi cần biết chính xác điểm cuối, nhưng với MOM, bên gửi (producer)
-chỉ cần biết một hàng đợi, hàng đợi này có thể là đại diện cho (nhiều hơn) một
-chức năng nào đó.
+chỉ cần biết một hàng đợi, hàng đợi này có thể là đại diện cho một hoặc nhiều
+điểm cuối.
 
 Ví dụ, với hệ thống crawler, khi một người gửi thông tin một đường link vào
 producer, producer đó có thể phân tích để gửi vào hàng đợi chuyên xử lí trang
@@ -231,10 +231,10 @@ VnExpress, hoặc đưa vào hàng đợi chuyên xử lí Zing, ... Đăng kí 
 đó là các crawler tương ứng.
 
 Chú ý rằng một số tài liệu còn nhắc đến một mô hình nữa của MOM bên cạnh pub-sub
-là mô hình điểm-điểm (point-to-point). Điểm-điểm có thể được coi là một trường
-hợp đặc biệt của pub-sub, với chỉ một producer và một consumer. Khi đã nhắc đến
-mô hình điểm-điểm, các tài liệu này cũng phân biệt luôn hàng đợi và chủ đề: hàng
-đợi dành cho mô hình điểm-điểm, còn chủ đề là cho mô hình pub-sub.
+là mô hình \emph{điểm-điểm} (point-to-point). Điểm-điểm có thể được coi là một
+trường hợp đặc biệt của pub-sub, với chỉ một producer và một consumer. Khi đã
+nhắc đến mô hình điểm-điểm, các tài liệu này cũng phân biệt luôn hàng đợi và chủ
+đề: hàng đợi dành cho mô hình điểm-điểm, còn chủ đề là cho mô hình pub-sub.
 
 \subsection{Thời gian sống}
 
@@ -255,8 +255,8 @@ tốc độ xử lí thông điệp được tăng lên đáng kể do được 
 \subsubsection{Fan-out}
 
 Trong chế độ fan-out \cite{waitingforcode2019}, thông điệp được gửi đến mọi
-consumer để xử lí. Tốc độ xử lí hàng chờ không tăng, tuy nhiên dữ liệu lại được
-xử lí theo nhiều cách khác nhau ở nhiều consumer khác nhau.
+consumer để xử lí. Xét tổng thể, thời gian xử lí hàng chờ không giảm, tuy nhiên
+dữ liệu lại được xử lí theo nhiều cách khác nhau ở nhiều consumer khác nhau.
 
 \subsection{Lưu trữ và thông báo}
 
@@ -265,12 +265,12 @@ tắc, một cơ sở dữ liệu là đủ để tạo ra một broker:
 
 \begin{itemize}
     \item Producer ghi thông điệp vào cơ sở dữ liệu.
-    \item Consumer đọc thông điệp ra theo chu kì (polling), lấy dữ liệu từ sau
-        lần đọc gần nhất.
+    \item Consumer đọc thông điệp ra theo chu kì (polling), lấy dữ liệu kể từ
+        sau lần đọc gần nhất.
 \end{itemize}
 
 Tuy nhiên, do yêu cầu ngày càng tăng về tốc độ, việc consumer chủ động đọc dữ
-liệu ra bắt đầu có nhiều overhead:
+liệu ra bắt đầu có nhiều nhược điểm:
 
 \begin{itemize}
     \item Tăng tần suất đọc dữ liệu: giảm xác suất đọc được dữ liệu mới.
@@ -278,9 +278,9 @@ liệu ra bắt đầu có nhiều overhead:
 \end{itemize}
 
 Do đó, cách tốt hơn là thông báo consumer khi có dữ liệu mới. Cơ sở dữ liệu có
-một tính năng phù hợp, đó là trigger, tuy nhiên tính năng này không phải là một
-thiết kế tốt, được tính toán từ đầu khi tạo ra tiêu chuẩn SQL, mà được thêm vào
-sau đó.
+một tính năng phù hợp cho việc này, đó là trigger. Tuy nhiên, trigger không phải
+là một thiết kế tốt, được tính toán từ đầu khi tạo ra tiêu chuẩn SQL, mà được
+thêm vào sau đó.
 
 Lý do trên kết hợp với thời gian sống ngắn của dữ liệu (đọc xong ít nhất một lần
 là có thể xóa, khác với cơ sở dữ liệu thường lưu dữ liệu hàng năm trời), và mẫu
@@ -352,20 +352,20 @@ consumer được thực hiện theo hai kiểu như sau \cite{kafka_detail}:
     \caption{Consumer group trong Kafka.}
 \end{wrapfigure}
 
-Nhờ có group, Kafka đạt được lợi thế của cả cơ chế fan-out (nhiều loại group
-consumer) và cơ chế load balancing (nhiều consumer để tăng tốc xử lý).
+Nhờ có consumer group, Kafka đạt được lợi thế của cả cơ chế fan-out (nhiều loại
+group consumer) và cơ chế load balancing (nhiều consumer để tăng tốc xử lý).
 
 \subsubsection{Cluster Broker}
 
 Trong Kafka, broker không phải là một máy riêng lẻ mà gồm nhiều máy khác nhau,
-để phục vụ tính năng replication. Ngoài ra, Kafka còn dùng ZooKeeper để chứa cài
-đặt broker. Toàn bộ các máy hợp lại thành một cụm broker.
+để phục vụ tính năng nhân bản (replication). Ngoài ra, Kafka còn dùng ZooKeeper
+để chứa cài đặt broker. Toàn bộ các máy hợp lại thành một cụm broker.
 
 \subsection{Phân mảnh và Nhân bản}
 
 \subsubsection{Phân mảnh: cấu trúc log}
 
-Trong Kafka, một topic được \emph{phân mảnh} thành các partition như sau:
+Trong Kafka, một topic được \emph{phân mảnh} (partition) như sau:
 
 \begin{figure}[H]
     \includegraphics[scale=0.5]{log_anatomy.png}
@@ -374,21 +374,24 @@ Trong Kafka, một topic được \emph{phân mảnh} thành các partition như
     \label{log_anatomy}
 \end{figure}
 
-Các partition này có cấu trúc log. Từ "log" ở đây hiểu theo nghĩa "một bản ghi
-chỉ thêm vào đuôi", thể hiện cách dữ liệu được ghi. Các file log này chính là
-cấu trúc dữ liệu cốt lõi của Kafka, là một trong hai yếu tố giúp Kafka có tốc độ
-cao (sẽ nói ở phần sau).
+Các partition này có cấu trúc \emph{log}. Từ "log" ở đây hiểu theo nghĩa "một
+bản ghi chỉ thêm vào đuôi", thể hiện cách dữ liệu được ghi. Các file log này
+chính là cấu trúc dữ liệu cốt lõi của Kafka, là một trong hai yếu tố giúp Kafka
+có tốc độ cao (sẽ nói ở phần sau).
 
 Khi producer đưa một record vào topic, record đó sẽ được thêm vào đuôi một
 partition, và được gán một số gọi là offset. Trong mỗi partition, số này tăng
-dần theo các record được thêm vào, từ đó có thể thấy trong mỗi partition, các
-record được sắp xếp theo thứ tự offset từ thấp đến cao, như trong hình
-\ref{log_anatomy}.
+dần theo các record được thêm vào. Từ đó, có thể thấy \emph{trong mỗi}
+partition, các record được sắp xếp theo thứ tự offset từ thấp đến cao, cũng đồng
+thời là thứ tự thời gian, như trong hình \ref{log_anatomy}.
 
 Do việc ghi tuần tự vào đuôi mỗi log, việc đọc cũng trở nên dễ dàng. Consumer
-chỉ cần nhớ offset gần nhất đã đọc, và đọc tuần tự tiếp từ đó, hoặc thậm chí có
-thể trỏ offset về sâu nữa để xử lí dữ liệu cũ nếu cần.
+chỉ cần nhớ offset gần nhất đã đọc, và đọc tuần tự tiếp từ đó. Hơn nữa, consumer
+có thể trỏ offset về sâu hơn để xử lí dữ liệu cũ nếu cần.
 
+% TODO: Serious flaw: the idea and relationship of
+%   - Breaking topic into partitions
+%   - Breaking consumer into smaller consumers (i.e. form a consumer group from similar consumers)
 Có một số lí do mà Kafka chia topic ra thành các partition:
 
 \begin{itemize}
