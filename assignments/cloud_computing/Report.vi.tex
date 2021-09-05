@@ -3,6 +3,9 @@
 \usepackage{hyperref}          % Clickable link
 \usepackage{indentfirst}
 
+\usepackage{amsthm}
+\newtheorem{definition}{Định nghĩa}
+
 % References
 \usepackage{biblatex}
 \addbibresource{references.bib}
@@ -99,11 +102,13 @@ rãi, ra đời 5 năm sau khi điện toán đám mây trở nên phổ biến.
 
 NIST định nghĩa điện toán đám mây như sau~\cite{NIST2011}:
 
-Điện toán đám mây là mô hình cho phép truy cập một cách thuận tiện, theo yêu cầu
-vào một bể tài nguyên dùng chung. Tài nguyên đó có thể là mạng, máy chủ, thiết
-bị lưu trữ, ứng dụng, dịch vụ. Tài nguyên này có thể được cấu hình, có thể được
-cung cấp và hoàn trả nhanh chóng mà không cần can thiệp từ nhà cung cấp dịch vụ.
-Mô hình này gồm năm đặc tính:
+\begin{definition}
+
+\emph{Điện toán đám mây} là mô hình cho phép truy cập một cách thuận tiện, theo
+yêu cầu vào một bể tài nguyên dùng chung. Tài nguyên đó có thể là mạng, máy chủ,
+thiết bị lưu trữ, ứng dụng, dịch vụ. Tài nguyên này có thể được cấu hình, có thể
+được cung cấp và hoàn trả nhanh chóng mà không cần can thiệp từ nhà cung cấp
+dịch vụ. Mô hình này gồm năm đặc tính:
 
 \begin{itemize}
     \item Tự phục vụ theo nhu cầu: Người dùng có thể sử dụng tài nguyên theo nhu
@@ -125,6 +130,8 @@ Mô hình này gồm năm đặc tính:
         thuật như số CPU, IOPS,\ldots{} Thông tin sử dụng có thể đưọc theo dõi,
         báo cáo cho cả người dùng và nhà cung cấp dịch vụ.
 \end{itemize}
+
+\end{definition}
 
 \section{Phân loại điện toán đám mây}
 
