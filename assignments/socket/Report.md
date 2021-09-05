@@ -4,8 +4,8 @@
 
 ### 1. Team member
 
-|   | Student name            | ID       |
-|---|:------------------------|:---------|
+|   | Student name           | ID       |
+|---|:-----------------------|:---------|
 | 1 | Nguyễn Việt Minh Nghĩa | 15021358 |
 
 ### 2. How to run

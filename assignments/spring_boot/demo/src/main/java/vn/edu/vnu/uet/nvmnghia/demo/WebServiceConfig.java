@@ -36,7 +36,7 @@ public class WebServiceConfig {
 
     /**
      * Generate WSDL from XSD
-     * 
+     *
      * @return DefaultWsdl11Definition the generated WSDL
      */
     @Bean(name = "calculator")

@@ -16,11 +16,11 @@
 
 % SVG
 \usepackage{ifluatex}
-\ifluatex
+\ifluatex{}
   \usepackage{pdftexcmds}
   \makeatletter
-  \let\pdfstrcmp\pdf@strcmp
-  \let\pdffilemoddate\pdf@filemoddate
+  \let\pdfstrcmp\pdf@strcmp{}
+  \let\pdffilemoddate\pdf@filemoddate{}
   \makeatother
 \fi
 \usepackage{svg}
@@ -64,19 +64,19 @@ máy tính tốc độ cao, các giải pháp kết nối máy tính bắt đầ
 tiếp liên tiến trình, thường gọi là IPC (viết tắt của inter-process
 communication).
 
-\subsection{Giao tiếp liên tiến trình - IPC}
+\subsection{Giao tiếp liên tiến trình --- IPC}
 
 Có rất nhiều cơ chế để liên lạc giữa các tiến trình với nhau, nổi bật trong số
-đó có RPC - Remote Procedure Call. Hai trong những lí do cho sự phổ biến của RPC
-là nó có thể giúp cho các tiến trình ở các máy khác nhau giao tiếp được với
+đó có RPC --- Remote Procedure Call. Hai trong những lí do cho sự phổ biến của
+RPC là nó có thể giúp cho các tiến trình ở các máy khác nhau giao tiếp được với
 nhau, đồng thời không phụ thuộc vào ngôn ngữ. Nhiều phương pháp cũ hơn như file,
-pipe, shared memory, ... đều không thể thực hiện điểm đầu tiên \cite{osc12}. Tuy
-nhiên, RPC và các biến thể của nó như ORB rất khó đáp ứng với các yêu cầu mới về
-độ ổn định, khả năng hoạt động liên tục và hiệu năng, đồng thời có bất lợi là
-cách sử dụng phức tạp, khiến chúng dần trở nên lỗi thời.
+pipe, shared memory,\ldots{} đều không thể thực hiện điểm đầu tiên~\cite{osc12}.
+Tuy nhiên, RPC và các biến thể của nó như ORB rất khó đáp ứng với các yêu cầu
+mới về độ ổn định, khả năng hoạt động liên tục và hiệu năng, đồng thời có bất
+lợi là cách sử dụng phức tạp, khiến chúng dần trở nên lỗi thời.
 
 Để giải quyết các hạn chế của RPC, có một cơ chế mới đang được sử dụng rất nhiều
-hiện nay là Message-oriented Middleware, viết tắt là MOM.
+hiện nay là Message-oriented Middleware, viết tắt là MOM\@.
 
 \subsection{Message-oriented Middleware}
 
@@ -98,7 +98,7 @@ gửi ở dạng thông điệp, giống như tin nhắn hay gửi thư, thay th
 producer phải chủ động liên lạc trực tiếp với consumer. Nói cách khác, producer
 được \emph{giải phóng khỏi việc gửi thông tin}.
 
-Hình \ref{general_producer_broker_consumer} mô tả kiến trúc của một MOM đơn
+Hình~\ref{general_producer_broker_consumer} mô tả kiến trúc của một MOM đơn
 giản, với ba thành phần kể trên (mũi tên chỉ hướng đi của thông điệp):
 
 % graph TD
@@ -112,8 +112,7 @@ giản, với ba thành phần kể trên (mũi tên chỉ hướng đi của th
 \begin{figure}[H]
     \includegraphics[scale=0.5]{general_producer_broker_consumer.png}
     \centering
-    \caption{Kiến trúc chung của MOM.}
-    \label{general_producer_broker_consumer}
+    \caption{Kiến trúc chung của MOM.}\label{general_producer_broker_consumer}
 \end{figure}
 
 Bài này sẽ phân tích các đặc điểm và kiến trúc cơ bản của một hệ thống MOM, đồng
@@ -122,13 +121,13 @@ nay.
 
 \section{Đặc điểm}
 
-Để tìm hiểu đặc điểm của MOM, ta có thể so sánh MOM với một cơ chế IPC khác
-có khả năng gần giống là RPC.
+Để tìm hiểu đặc điểm của MOM, ta có thể so sánh MOM với một cơ chế IPC khác có
+khả năng gần giống là RPC\@.
 
-\subsection{Tính bất đồng bộ - Asynchrony}
+\subsection{Tính bất đồng bộ --- Asynchrony}
 
 Tính bất đồng bộ là đặc điểm quan trọng nhất của ý tưởng giao tiếp thông qua
-thông điệp \cite{inbook}. Thuộc tính này nghĩa là producer chỉ cần "gửi" một
+thông điệp~\cite{inbook}. Thuộc tính này nghĩa là producer chỉ cần ``gửi'' một
 thông điệp, thông điệp đó sẽ được broker đưa đến consumer phù hợp để xử lí. Để
 thấy rõ lợi ích của tính bất đồng bộ, ta có thể so sánh với RPC đồng bộ (có RPC
 bất đồng bộ, nhưng ta tạm thời bỏ qua).
@@ -146,67 +145,66 @@ thể làm việc khác, không phí thời gian chờ kết quả. Nếu ngay l
 không thể nhận được dữ liệu, broker sẽ chờ đến khi consumer có thể nhận được dữ
 liệu rồi gửi lại, đảm bảo gửi ít nhất một lần.
 
-Cần chú ý rằng MOM không thể, và không được thiết kế để thay thế hoàn toàn RPC.
-Lý do chính nằm ở chi tiết producer không chờ lấy dữ liệu kết quả. MOM hoàn toàn
-không cung cấp một cơ chế riêng nào giúp consumer trả kết quả cho producer, trái
-ngược với tính liên lạc hai chiều của RPC. Nếu muốn lấy kết quả, hai bên
-producer và consumer đổi vai cho nhau, và cần thêm một kết nối nữa. Điều này
-khiến cho RPC vẫn có chỗ đứng riêng, đồng thời khiến cho việc thiết kế hệ thống
-dùng MOM có khác biệt lớn so với với hệ thống dùng RPC: MOM chỉ phù hợp với hệ
-thống có dữ liệu không có sự phụ thuộc lẫn nhau \cite{ejb3_c4}.
+Cần chú ý rằng MOM không thể, và không được thiết kế để thay thế hoàn toàn
+RPC\@. Lý do chính nằm ở chi tiết producer không chờ lấy dữ liệu kết quả. MOM
+hoàn toàn không cung cấp một cơ chế riêng nào giúp consumer trả kết quả cho
+producer, trái ngược với tính liên lạc hai chiều của RPC\@. Nếu muốn lấy kết
+quả, hai bên producer và consumer đổi vai cho nhau, và cần thêm một kết nối nữa.
+Điều này khiến cho RPC vẫn có chỗ đứng riêng, đồng thời khiến cho việc thiết kế
+hệ thống dùng MOM có khác biệt lớn so với với hệ thống dùng RPC\@: MOM chỉ phù
+hợp với hệ thống có dữ liệu không có sự phụ thuộc lẫn nhau~\cite{ejb3_c4}.
 
-\subsection{Tách rời bên gửi - bên nhận - Decoupling}
+\subsection{Tách rời bên gửi --- bên nhận --- Decoupling}
 
-Một đặc điểm quan trọng khi tách việc "gửi" dữ liệu khỏi producer là việc gửi đi
-đâu hoàn toàn nằm trong tay broker. Động từ "gửi" được dùng theo nghĩa là một
-bên muốn bên kia biết được một thông tin nào đó. Để có thể gửi, bên gửi cần biết
-thông tin bên nhận. Tuy nhiên, với MOM, bên "gửi" - producer - có thể không cần
-biết thông tin của bên "nhận" - consumer. Producer không cần biết rằng consumer
-nào nhận, chứ chưa nói đến việc có bao nhiêu consumer nhận, hay đã nhận được
-thực sự chưa.
+Một đặc điểm quan trọng khi tách việc ``gửi'' dữ liệu khỏi producer là việc gửi
+đi đâu hoàn toàn nằm trong tay broker. Động từ ``gửi'' được dùng theo nghĩa là
+một bên muốn bên kia biết được một thông tin nào đó. Để có thể gửi, bên gửi cần
+biết thông tin bên nhận. Tuy nhiên, với MOM, bên ``gửi'' --- producer --- có thể
+không cần biết thông tin của bên ``nhận'' --- consumer. Producer không cần biết
+rằng consumer nào nhận, chứ chưa nói đến việc có bao nhiêu consumer nhận, hay đã
+nhận được thực sự chưa.
 
 Nói đơn giản, với producer và người dùng, MOM là một dịch vụ gửi thông điệp theo
 kiểu bắn-và-quên. Hệ thống MOM do đó đạt được sự tách rời gửi-nhận.
 
 Tiếp tục so sánh với RPC, bên gửi cần biết thông tin về bên nhận (ví dụ như địa
-chỉ IP, tên hàm, ...). Nếu có nhiều bên nhận, bên gửi phải xử lí việc gửi cho
-mọi bên nhận, bao gồm những việc như chờ, gửi lại nếu bị lỗi, ..., do đó tốn
+chỉ IP, tên hàm,\ldots). Nếu có nhiều bên nhận, bên gửi phải xử lí việc gửi cho
+mọi bên nhận, bao gồm những việc như chờ, gửi lại nếu bị lỗi,\ldots, do đó tốn
 nhiều thời gian. Đặc biệt, với các hệ thống đám mây, nơi việc máy chủ ảo bị xóa,
 tắt, hoặc tạo mới diễn ra thường xuyên thì mạng kết nối đầy đủ, chặt chẽ (fully
-connected network) mà RPC tạo ra sẽ rất phức tạp và khó bảo trì
-\cite{Kleppmann17C}, giống như biếm họa trong hình
-\ref{spaghetti_architectures}.
+connected network) mà RPC tạo ra sẽ rất phức tạp và khó bảo
+trì~\cite{Kleppmann17C}, giống như biếm họa trong
+hình~\ref{spaghetti_architectures}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{spaghetti_architectures.png}
-    \caption{Kiến trúc Spaghetti\texttrademark \cite{confluent2018}.}
-    \label{spaghetti_architectures}
+    \caption{Kiến trúc Spaghetti\texttrademark~\cite{confluent2018}.}\label{spaghetti_architectures}
 \end{figure}
 
 Với hai đặc điểm nêu trên, có thể thấy rằng hệ thống sử dụng MOM có thiết kế
-hoàn toàn khác với hệ thống sử dụng RPC:
+hoàn toàn khác với hệ thống sử dụng RPC\@:
 
 \begin{itemize}
     \item MOM phù hợp với hệ thống được thiết kế có liên kết lỏng lẻo
-    (loose-coupling).
+        (loose-coupling).
     \item RPC phù hợp với hệ thống cần liên lạc hai chiều.
 \end{itemize}
 
-\section{Trung gian trung chuyển thông điệp - Message broker}
+\section{Trung gian trung chuyển thông điệp --- Message broker}
 
 Trung gian trung chuyển thông điệp là thành phần chính trong một hệ thống MOM,
 chịu trách nhiệm trung chuyển dữ liệu. Dù broker được coi là một thành phần
 trong bản thân MOM, nó là thành phần chính yếu nhất, và trong nhiều trường hợp
-cụm từ "message broker" được sử dụng tương đương với cụm từ MOM. Do vậy, ta có
-thể tạm bỏ qua producer và consumer, và phân tích broker.
+cụm từ ``message broker'' được sử dụng tương đương với cụm từ MOM\@. Do vậy, ta
+có thể tạm bỏ qua producer và consumer, và phân tích broker.
 
 Trưóc đây, các hệ thống broker thường chỉ được dùng trong các hệ thống của tổ
 chức lớn, do tiềm lực kinh tế và nhu cầu cho phép, với những sản phẩm của các
 công ty phần mềm lớn như EMS của TIBCO, WebSphere của IBM, webMethods của
-softwareAG \cite{Kleppmann17C}. Hiện nay, nhiều hệ thống vừa và nhỏ cũng có nhu
+softwareAG~\cite{Kleppmann17C}. Hiện nay, nhiều hệ thống vừa và nhỏ cũng có nhu
 cầu scale out, do đó đã có rất nhiều dự án MOM mã nguồn mở xuất hiện, tiêu biểu
-là RabbitMQ, Apache Kafka, ActiveMQ, ...
+là RabbitMQ, Apache Kafka, ActiveMQ,\ldots
 
 Phần này tập trung vào phân tích một số khía cạnh về cách broker hoạt động.
 
@@ -214,21 +212,21 @@ Phần này tập trung vào phân tích một số khía cạnh về cách brok
 
 Thông thường, các broker quản lý việc truyền thông điệp bằng cách chia ra các
 \emph{hàng chờ} (queue) hay \emph{chủ đề} (topic); hai từ này nhìn chung được
-dùng tương đương nhau. Khi một producer \emph{xuất bản} - tức gửi - một thông
-điệp vào một hàng chờ, thông điệp này sẽ được gửi đến các consumer đã \emph{đăng
-kí} nhận thông điệp từ hàng chờ đó. Nói cách khác producer không phải gửi đến
-mọi consumer trong toàn hệ thống. Cơ chế này được gọi là \emph{xuất bản-đăng kí}
-(publish-subscribe, hay viết tắt là pub/sub).
+dùng tương đương nhau. Khi một producer \emph{xuất bản} --- tức gửi --- một
+thông điệp vào một hàng chờ, thông điệp này sẽ được gửi đến các consumer đã
+\emph{đăng kí} nhận thông điệp từ hàng chờ đó. Nói cách khác producer không phải
+gửi đến mọi consumer trong toàn hệ thống. Cơ chế này được gọi là \emph{xuất
+bản-đăng kí} (publish-subscribe, hay viết tắt là pub/sub).
 
-Cơ chế pub/sub có thể coi là một bước trừu tượng hóa trên các cơ chế cũ như RPC.
-Với RPC, bên gửi cần biết chính xác điểm cuối, nhưng với MOM, bên gửi (producer)
-chỉ cần biết một hàng đợi, hàng đợi này có thể là đại diện cho một hoặc nhiều
-điểm cuối.
+Cơ chế pub/sub có thể coi là một bước trừu tượng hóa trên các cơ chế cũ như
+RPC\@. Với RPC, bên gửi cần biết chính xác điểm cuối, nhưng với MOM, bên gửi
+(producer) chỉ cần biết một hàng đợi, hàng đợi này có thể là đại diện cho một
+hoặc nhiều điểm cuối.
 
 Ví dụ, với hệ thống crawler, khi một người gửi thông tin một đường link vào
 producer, producer đó có thể phân tích để gửi vào hàng đợi chuyên xử lí trang
-VnExpress, hoặc đưa vào hàng đợi chuyên xử lí Zing, ... Đăng kí vào các hàng đợi
-đó là các crawler tương ứng.
+VnExpress, hoặc đưa vào hàng đợi chuyên xử lí Zing,\ldots{} Đăng kí vào các hàng
+đợi đó là các crawler tương ứng.
 
 Chú ý rằng một số tài liệu còn nhắc đến một mô hình nữa của MOM bên cạnh pub-sub
 là mô hình \emph{điểm-điểm} (point-to-point). Điểm-điểm có thể được coi là một
@@ -254,7 +252,7 @@ tốc độ xử lí thông điệp được tăng lên đáng kể do được 
 
 \subsubsection{Fan-out}
 
-Trong chế độ fan-out \cite{waitingforcode2019}, thông điệp được gửi đến mọi
+Trong chế độ fan-out~\cite{waitingforcode2019}, thông điệp được gửi đến mọi
 consumer để xử lí. Xét tổng thể, thời gian xử lí hàng chờ không giảm, tuy nhiên
 dữ liệu lại được xử lí theo nhiều cách khác nhau ở nhiều consumer khác nhau.
 
@@ -266,7 +264,7 @@ tắc, một cơ sở dữ liệu là đủ để tạo ra một broker:
 \begin{itemize}
     \item Producer ghi thông điệp vào cơ sở dữ liệu.
     \item Consumer đọc thông điệp ra theo chu kì (polling), lấy dữ liệu kể từ
-    lần đọc gần nhất.
+        lần đọc gần nhất.
 \end{itemize}
 
 Tuy nhiên, do yêu cầu ngày càng tăng về tốc độ, việc consumer chủ động đọc dữ
@@ -285,39 +283,39 @@ thêm vào sau đó.
 Lý do trên kết hợp với thời gian sống ngắn của dữ liệu (đọc xong ít nhất một lần
 là có thể xóa, khác với cơ sở dữ liệu thường lưu dữ liệu hàng năm trời), và mẫu
 truy cập tuần tự (khác với mẫu truy cập ngẫu nhiên của cơ sở dữ liệu), nên để
-tối ưu hiệu năng, các broker có cách lưu trữ dữ liệu riêng
-\cite{monitor_stream}, thay vì dùng cơ sở dữ liệu đa dụng có sẵn.
+tối ưu hiệu năng, các broker có cách lưu trữ dữ liệu
+riêng~\cite{monitor_stream}, thay vì dùng cơ sở dữ liệu đa dụng có sẵn.
 
-Mục \ref{kafka} tiếp theo sẽ giới thiệu một số chi tiết về cách lưu trữ dữ liệu
+Mục~\ref{kafka} tiếp theo sẽ giới thiệu một số chi tiết về cách lưu trữ dữ liệu
 của Apache Kafka.
 
 \subsection{Tiêu chuẩn}
 
 Khác với cơ sở dữ liệu quan hệ và SQL, không có một tiêu chuẩn thống nhất trong
-toàn ngành về MOM. Tuy nhiên có hai tiêu chuẩn nổi bật hơn cả là Java Message
+toàn ngành về MOM\@. Tuy nhiên có hai tiêu chuẩn nổi bật hơn cả là Java Message
 Service (JMS) của Java và Advanced Message Queuing Protocol (AMQP) của
-OASIS/ISO.
+OASIS/ISO\@.
 
-\subsubsection{Java Message Service - JMS}
+\subsubsection{Java Message Service --- JMS}
 
 JMS là một bộ API trong Java EE cho phép người dùng gửi và nhận thông tiên liên
-tiến trình theo kiểu MOM. Trong JMS, broker được gọi là JMS Provider.
+tiến trình theo kiểu MOM\@. Trong JMS, broker được gọi là JMS Provider.
 
 Do JMS chỉ đơn giản là một bộ API, cài đặt chi tiết của mọi thành phần, bao gồm
 cả giao thức để giao tiếp giữa producer-broker-consumer đều không được định
 nghĩa. Do đó, 2 hệ thống MOM tuân theo JMS chưa chắc đã kết nối được với nhau,
 dù có chung cách dùng.
 
-\subsubsection{Advanced Message Queuing Protocol - AMQP}
+\subsubsection{Advanced Message Queuing Protocol --- AMQP}
 
 AMQP là một giao thức tầng ứng dụng cho MOM dùng để liên lạc giữa
 producer-broker-consumer.
 
-Do AMQP là một giao thức gửi dữ liệu ở dạng cơ bản nhất - byte, bất kì hai ứng
+Do AMQP là một giao thức gửi dữ liệu ở dạng cơ bản nhất --- byte, bất kì hai ứng
 dụng nào cài đặt nó đều có thể giao tiếp với nhau. Apache ActiveMQ là một MOM có
-sử dụng giao thức AMQP, và cùng lúc cài đặt bộ API JMS.
+sử dụng giao thức AMQP, và cùng lúc cài đặt bộ API JMS\@.
 
-\section{Apache Kafka} \label{kafka}
+\section{Apache Kafka}\label{kafka}
 
 \subsection{Giới thiệu}
 
@@ -325,11 +323,11 @@ Kafka là một MOM nã nguồn mở viết bằng Java và Scala. Được phá
 Kreps tại LinkedIn vào năm 2011, dự án này đã được trao cho Apache Software
 Foundation và trở thành một trong những MOM phổ biến nhất hiện nay. Kafka được
 chú ý bởi khả năng ghi dữ liệu với tốc độ cao, độ trễ thấp và dễ dàng scale out,
-phù hợp với các ứng dụng cần thu thập dữ liệu thời gian thực \cite{kafka_intro}.
+phù hợp với các ứng dụng cần thu thập dữ liệu thời gian thực~\cite{kafka_intro}.
 
 \subsection{Kiến trúc}
 
-\subsubsection{Producer - Broker - Consumer}
+\subsubsection{Producer --- Broker --- Consumer}
 
 Trong Kafka, một thông điệp được gọi là một bản ghi (record). Mỗi bản ghi gồm
 một khóa, một giá trị, và một nhãn thời gian.
@@ -337,13 +335,13 @@ một khóa, một giá trị, và một nhãn thời gian.
 Về cơ bản, Kafka có kiến trúc giống như mọi MOM khác, với ba thành phần
 producer-broker-consumer. Tuy nhiên, phía consumer của Kafka có chút biến tấu.
 Kafka có consumer group, là một nhóm các consumer. Tương tác của broker với
-consumer được thực hiện theo hai kiểu như sau \cite{kafka_detail}:
+consumer được thực hiện theo hai kiểu như sau~\cite{kafka_detail}:
 
 \begin{itemize}
     \item Fan-out: Mỗi thông điệp được broker gửi đên mọi group đã đăng ký vào
-    chủ đề tương ứng.
+        chủ đề tương ứng.
     \item Load balacing: Trong mỗi group, mỗi thông điệp được gửi đến một
-    consumer.
+        consumer.
 \end{itemize}
 
 \begin{wrapfigure}{r}{0.5\textwidth}
@@ -370,12 +368,11 @@ Trong Kafka, một topic được \emph{phân mảnh} (partition) như sau:
 \begin{figure}[H]
     \includegraphics[scale=0.5]{log_anatomy.png}
     \centering
-    \caption{Cấu trúc topic trong Kafka \cite{kafka_intro}.}
-    \label{log_anatomy}
+    \caption{Cấu trúc topic trong Kafka~\cite{kafka_intro}.}\label{log_anatomy}
 \end{figure}
 
-Các partition này có cấu trúc \emph{log}. Từ "log" ở đây hiểu theo nghĩa "một
-bản ghi chỉ thêm vào đuôi", thể hiện cách dữ liệu được ghi. Các file log này
+Các partition này có cấu trúc \emph{log}. Từ ``log'' ở đây hiểu theo nghĩa ``một
+bản ghi chỉ thêm vào đuôi'', thể hiện cách dữ liệu được ghi. Các file log này
 chính là cấu trúc dữ liệu cốt lõi của Kafka, là một trong hai yếu tố giúp Kafka
 có tốc độ cao (sẽ nói ở phần sau).
 
@@ -383,7 +380,7 @@ Khi producer đưa một record vào topic, record đó sẽ được thêm vào
 partition, và được gán một số gọi là offset. Trong mỗi partition, số này tăng
 dần theo các record được thêm vào. Từ đó, có thể thấy \emph{trong mỗi}
 partition, các record được sắp xếp theo thứ tự offset từ thấp đến cao, cũng đồng
-thời là thứ tự thời gian, như trong hình \ref{log_anatomy}.
+thời là thứ tự thời gian, như trong hình~\ref{log_anatomy}.
 
 Do việc ghi tuần tự vào đuôi mỗi log, việc đọc cũng trở nên dễ dàng. Consumer
 chỉ cần nhớ offset gần nhất đã đọc, và đọc tuần tự tiếp từ đó. Hơn nữa, consumer
@@ -396,14 +393,14 @@ Có một số lí do mà Kafka chia topic ra thành các partition:
 
 \begin{itemize}
     \item Scale out: Nếu topic quá lớn, chỉ cần thêm máy broker và thêm
-    partition.
+        partition.
     \item Đánh đổi hợp lí giữa tốc độ và khả năng đảm bảo thứ tự: Với nhiều ứng
-    dụng, thứ tự thông điệp rất quan trọng. Cách truyền thống là đảm bảo chỉ một
-    consumer xử lí toàn bộ topic. Tuy nhiên Kafka chia topic ra các partition,
-    và giao mỗi partition cho một consumer. Với mỗi consumer, thứ tự thông điệp
-    được đảm bảo, do đó có thể tăng tốc xử lí theo kiểu fan-out. Tuy nhiên, thứ
-    tự thông điệp giữa các consumer không được đảm bảo, do đó ứng dụng cũng phải
-    được thiết kế phù hợp.
+        dụng, thứ tự thông điệp rất quan trọng. Cách truyền thống là đảm bảo chỉ
+        một consumer xử lí toàn bộ topic. Tuy nhiên Kafka chia topic ra các
+        partition, và giao mỗi partition cho một consumer. Với mỗi consumer, thứ
+        tự thông điệp được đảm bảo, do đó có thể tăng tốc xử lí theo kiểu
+        fan-out. Tuy nhiên, thứ tự thông điệp giữa các consumer không được đảm
+        bảo, do đó ứng dụng cũng phải được thiết kế phù hợp.
 \end{itemize}
 
 \subsubsection{Nhân bản: master-slave}
@@ -419,12 +416,12 @@ Có hai lí do mà Kafka cần nhân bản partition:
 \begin{itemize}
     \item Sao lưu
     \item Tăng tốc đọc: consumer có thể đọc từ nhiều máy broker (có từ Kafka
-    2.4)
+        2.4)
 \end{itemize}
 
 \subsection{Nhập/xuất hiệu năng cao}
 
-Có hai lí do chính cho tốc độ cao của Kafka, và đều liên quan đến IO:
+Có hai lí do chính cho tốc độ cao của Kafka, và đều liên quan đến IO\@:
 
 \subsubsection{Đọc ghi tuần tự}
 
@@ -465,20 +462,20 @@ overhead.
 \subsubsection{Consumer}
 
 Giống với đa số các MOM khác, trong cài đặt thực tế, consumer lấy dữ liệu từ
-broker chứ không phải broker "đẩy" dữ liệu xuống consumer.
+broker chứ không phải broker ``đẩy'' dữ liệu xuống consumer.
 
 \subsection{Ứng dụng}
 
-Ứng dụng quan trọng nhất của Kafka chính là làm một hệ thống MOM. Trong vai trò
-này, Kafka đã được sử dụng thành công trong các hệ thống lớn, yêu cầu xử lí thời
-gian thực. Cụ thể hơn, có hai ca sử dụng phổ biến:
+Ứng dụng quan trọng nhất của Kafka chính là làm một hệ thống MOM\@. Trong vai
+trò này, Kafka đã được sử dụng thành công trong các hệ thống lớn, yêu cầu xử lí
+thời gian thực. Cụ thể hơn, có hai ca sử dụng phổ biến:
 
 \begin{itemize}
     \item Event sourcing: Là một mô hình thiết kế. Trong mô hình này, các thay
-    đổi trạng thái của dữ liệu được ghi lại và được gửi đến các hệ thống khác
-    thông qua MOM. Với chuỗi các thay đổi này, bên nhận có thể "replay" và đạt
-    được trạng thái dữ liệu của bên gửi.
-    \item Analytic pipeline:
+        đổi trạng thái của dữ liệu được ghi lại và được gửi đến các hệ thống
+        khác thông qua MOM\@. Với chuỗi các thay đổi này, bên nhận có thể
+        ``replay'' và đạt được trạng thái dữ liệu của bên gửi.
+        \item Analytic pipeline:
 \end{itemize}
 
 Ngoài ra, với hệ thống lưu trữ được phân mảnh và nhân bản, Kafka có thể đóng vai
@@ -487,17 +484,17 @@ trò làm một cơ sở dữ liệu.
 Điểm khác biệt của Kafka và một số hệ thống đối thủ như ActiveMQ là mức độ hỗ
 trợ cho xử lí dữ liệu dạng luồng (stream data). Dữ liệu dạng luồng coi dữ liệu
 là một luồng đến và đi liên tục. Đây là quan điểm khác với quan điểm khác với ý
-tưởng của xử lí dữ liệu theo lô (batch data), do để tạo được "lô" thì dữ liệu
+tưởng của xử lí dữ liệu theo lô (batch data), do để tạo được ``lô'' thì dữ liệu
 phải có một cách phân nhóm hữu ích (ví dụ, nhóm dữ liệu theo năm). Với dữ liệu
-dạng luồng, ngưòi ta chấp nhận rằng dữ liệu không thể được "gom" lại như thế
-(hoặc chỉ "gom" một số điểm dữ liệu gần nhau). Do khối dữ liệu dùng để xử lí nhỏ
-và không phải chờ thu thập đủ dữ liệu, hệ thống dữ liệu luồng có thể đạt được
-tốc độ xử lí gần với thời gian thực.
+dạng luồng, ngưòi ta chấp nhận rằng dữ liệu không thể được ``gom'' lại như thế
+(hoặc chỉ ``gom'' một số điểm dữ liệu gần nhau). Do khối dữ liệu dùng để xử lí
+nhỏ và không phải chờ thu thập đủ dữ liệu, hệ thống dữ liệu luồng có thể đạt
+được tốc độ xử lí gần với thời gian thực.
 
 Các hệ thống MOM mới đều hỗ trợ phần nào các thao tác aggregator và join trong
 xử lí dữ liệu dạng luồng, nhưng với các bài toán phức tạp hơn thì vẫn cần những
-hệ thống xử lí luồng ở ngoài như Storm, Spark, ... Hiện tại chỉ Kafka mới có hệ
-thống xử lí luồng riêng là Kafka Stream.
+hệ thống xử lí luồng ở ngoài như Storm, Spark,\ldots{} Hiện tại chỉ Kafka mới có
+hệ thống xử lí luồng riêng là Kafka Stream.
 
 Tuy nhiên, các hệ thống MOM cổ điển hơn như ActiveMQ hay RabbitMQ, và các hệ
 thống không broker (cho đến đây, các MOM được bàn đến đều có broker) như ZeroMQ
@@ -511,7 +508,7 @@ năng cao).
 \subsection{Bài toán: Crawler}
 
 Cho đường link một bài báo trên VnExpress hoặc Zing. Crawl dữ liệu (tiêu đề,
-thân bài, ...) bài báo đó và các bài báo liên quan về.
+thân bài,\ldots) bài báo đó và các bài báo liên quan về.
 
 \subsection{Lời giải}
 
